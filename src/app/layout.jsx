@@ -23,14 +23,6 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <div className="announce">
-          <div className="announce__track">
-            {[...Array(8)].map((_, i) => (
-              <span key={i} className="announce__item">PULL UP CORRECT &bull; COSTUMES &amp; PARTY GEAR &bull;</span>
-            ))}
-          </div>
-        </div>
-
         <nav className="nav">
           <a href="/" className="nav__logo">Bodega</a>
           <ul className="nav__links">
