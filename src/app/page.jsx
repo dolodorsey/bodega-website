@@ -29,10 +29,15 @@ export default async function HomePage() {
     <>
       {/* HERO */}
       <section className="hero">
-        <div className="hero__bg" style={{
-          background: 'linear-gradient(135deg, #1a0a00 0%, #0d0d0d 50%, #1a0500 100%)',
-          position: 'absolute', inset: 0
-        }} />
+        <video
+          className="hero__bg"
+          src="https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics/bodega/BODEGA_VID.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+        />
         <div className="hero__overlay" />
         <div className="hero__content">
           <div className="hero__tag">The Party Starts Here</div>
