@@ -12,11 +12,11 @@ export const metadata = {
   },
 };
 
-const SHOPIFY = 'https://bodegabodegbodega.myshopify.com';
+const SHOPIFY = 'https://bodgeaworldwide.myshopify.com';
 
 const NAV = [
   { label: 'Shop All', href: '/shop' },
-  { label: 'Costumes', href: `${SHOPIFY}/collections/all` },
+  { label: 'Costumes', href: `${SHOPIFY}/collections/bodega` },
 ];
 
 export default function RootLayout({ children }) {
@@ -46,7 +46,7 @@ export default function RootLayout({ children }) {
             </div>
             <div>
               <div className="footer__heading">Shop</div>
-              <a href={`${SHOPIFY}/collections/all`} className="footer__link">All Products</a>
+              <a href={`${SHOPIFY}/collections/bodega`} className="footer__link">All Products</a>
               <a href="/shop" className="footer__link">Shop Page</a>
             </div>
             <div>

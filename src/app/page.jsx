@@ -1,7 +1,7 @@
 import { getProducts, formatPrice } from '@/lib/shopify';
 
 export const dynamic = 'force-dynamic';
-const S = 'https://bodegabodegbodega.myshopify.com';
+const S = 'https://bodgeaworldwide.myshopify.com';
 
 function ProductCard({ p }) {
   const img = p.images?.[0]?.src;
@@ -9,16 +9,18 @@ function ProductCard({ p }) {
   const vid = p.variants?.[0]?.id;
   if (!img) return null;
   return (
-    <a href={`${S}/products/${p.handle}`} className="dc">
+    <article className="dc">
       <div className="dc__wrap">
-        <img src={img} alt={p.title} className="dc__img" loading="lazy" />
+        <a href={`${S}/products/${p.handle}`} aria-label={`View ${p.title}`}>
+          <img src={img} alt={p.title} className="dc__img" loading="lazy" />
+        </a>
         <a href={`${S}/cart/${vid}:1`} className="dc__cta">Add to Cart</a>
       </div>
       <div className="dc__info">
-        <div className="dc__name">{p.title}</div>
+        <a href={`${S}/products/${p.handle}`} className="dc__name">{p.title}</a>
         <div className="dc__price">{formatPrice(pr)}</div>
       </div>
-    </a>
+    </article>
   );
 }
 
@@ -45,7 +47,7 @@ export default async function HomePage() {
           <p className="hero__sub">Costumes, accessories, and everything you need to pull up correct. Don&rsquo;t show up basic.</p>
           <div className="hero__actions">
             <a href="/shop" className="btn-primary">Shop Now</a>
-            <a href={`${S}/collections/all`} className="btn-secondary">View All</a>
+            <a href={`${S}/collections/bodega`} className="btn-secondary">View All</a>
           </div>
         </div>
       </section>
@@ -63,7 +65,7 @@ export default async function HomePage() {
       <section className="shop" style={{ borderTop: '1px solid var(--tx03)' }}>
         <div className="shop__header">
           <h2 className="shop__title">All Products &mdash; {products.length}</h2>
-          <a href={`${S}/collections/all`} className="shop__link">View on Shopify &rarr;</a>
+          <a href={`${S}/collections/bodega`} className="shop__link">View on Shopify &rarr;</a>
         </div>
         <div className="dgrid">
           {products.map(p => <ProductCard key={p.id} p={p} />)}

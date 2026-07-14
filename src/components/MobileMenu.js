@@ -3,10 +3,10 @@ import { useState } from 'react';
 
 export default function MobileMenu() {
   const [open, setOpen] = useState(false);
-  const S = 'https://bodegabodegbodega.myshopify.com';
+  const S = 'https://bodgeaworldwide.myshopify.com';
   const links = [
     { label: 'Shop All', href: '/shop' },
-    { label: 'Costumes', href: `${S}/collections/all` },
+    { label: 'Costumes', href: `${S}/collections/bodega` },
     { label: 'Cart', href: `${S}/cart` },
   ];
   return (

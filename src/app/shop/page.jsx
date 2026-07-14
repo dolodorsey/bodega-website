@@ -2,7 +2,7 @@ import { getProducts } from '@/lib/shopify';
 import ColorCycleCard from '@/components/ColorCycleCard';
 
 export const dynamic = 'force-dynamic';
-const S = 'https://bodegabodegbodega.myshopify.com';
+const S = 'https://bodgeaworldwide.myshopify.com';
 
 export default async function ShopPage() {
   const products = await getProducts();
@@ -22,7 +22,7 @@ export default async function ShopPage() {
               {cat} <span className="shop-nav__count">({byType[cat].length})</span>
             </a>
           ))}
-          <a href={`${S}/collections/all`} className="shop-nav__link shop-nav__link--shopify">
+          <a href={`${S}/collections/bodega`} className="shop-nav__link shop-nav__link--shopify">
             Shopify Store &rarr;
           </a>
         </div>
@@ -32,7 +32,7 @@ export default async function ShopPage() {
         <section key={cat} id={cat.toLowerCase().replace(/\s/g, '-')} className="shop">
           <div className="shop__header">
             <h2 className="shop__title">{cat} &mdash; {items.length}</h2>
-            <a href={`${S}/collections/all`} className="shop__link">View on Shopify &rarr;</a>
+            <a href={`${S}/collections/bodega`} className="shop__link">View on Shopify &rarr;</a>
           </div>
           <div className="dgrid">
             {items.map(p => (
