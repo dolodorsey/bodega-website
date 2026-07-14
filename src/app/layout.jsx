@@ -1,5 +1,19 @@
 import './globals.css';
+import { Bebas_Neue, Outfit } from 'next/font/google';
 import MobileMenu from '@/components/MobileMenu';
+
+const display = Bebas_Neue({
+  subsets: ['latin'],
+  weight: '400',
+  variable: '--font-bodega-display',
+  display: 'swap',
+});
+const body = Outfit({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700'],
+  variable: '--font-bodega-body',
+  display: 'swap',
+});
 
 export const metadata = {
   title: 'BODEGA — Costumes, Party Gear & Good Times',
@@ -21,7 +35,7 @@ const NAV = [
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${display.variable} ${body.variable}`}>
       <body>
         <nav className="nav">
           <a href="/" className="nav__logo">Bodega</a>
@@ -29,7 +43,7 @@ export default function RootLayout({ children }) {
             {NAV.map(n => (
               <li key={n.label}><a href={n.href} className="nav__link">{n.label}</a></li>
             ))}
-            <li><a href={`${SHOPIFY}/cart`} className="nav__link" style={{ color: '#FF6B35' }}>Cart</a></li>
+            <li><a href={`${SHOPIFY}/cart`} className="nav__link nav__link--cart">Cart</a></li>
           </ul>
           <MobileMenu />
         </nav>
