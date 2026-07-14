@@ -1,4 +1,4 @@
-import { getProducts, formatPrice } from '@/lib/shopify';
+import { getProductsByBrand, formatPrice } from '@/lib/shopify';
 
 export const dynamic = 'force-dynamic';
 const S = 'https://bodgeaworldwide.myshopify.com';
@@ -25,7 +25,8 @@ function ProductCard({ p }) {
 }
 
 export default async function HomePage() {
-  const products = await getProducts();
+  const brandFolders = await getProductsByBrand();
+  const productCount = brandFolders.reduce((total, folder) => total + folder.products.length, 0);
 
   return (
     <>
@@ -61,15 +62,23 @@ export default async function HomePage() {
         </div>
       </div>
 
-      {/* ALL PRODUCTS */}
+      {/* PRODUCTS BY BRAND */}
       <section className="shop" style={{ borderTop: '1px solid var(--tx03)' }}>
         <div className="shop__header">
-          <h2 className="shop__title">All Products &mdash; {products.length}</h2>
-          <a href={`${S}/collections/bodega`} className="shop__link">View on Shopify &rarr;</a>
+          <h2 className="shop__title">Shop by Brand &mdash; {productCount}</h2>
+          <a href="/shop" className="shop__link">Open all folders &rarr;</a>
         </div>
-        <div className="dgrid">
-          {products.map(p => <ProductCard key={p.id} p={p} />)}
-        </div>
+        {brandFolders.map(folder => (
+          <section key={folder.handle} className="home-brand-folder">
+            <div className="shop__header">
+              <h3 className="shop__title">{folder.label} &mdash; {folder.products.length}</h3>
+              <a href={`/shop#brand-${folder.handle}`} className="shop__link">Open folder &rarr;</a>
+            </div>
+            <div className="dgrid">
+              {folder.products.map(product => <ProductCard key={product.id} p={product} />)}
+            </div>
+          </section>
+        ))}
       </section>
 
       {/* MANIFESTO */}

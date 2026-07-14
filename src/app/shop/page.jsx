@@ -1,25 +1,19 @@
-import { getProducts } from '@/lib/shopify';
+import { getProductsByBrand } from '@/lib/shopify';
 import ColorCycleCard from '@/components/ColorCycleCard';
 
 export const dynamic = 'force-dynamic';
 const S = 'https://bodgeaworldwide.myshopify.com';
 
 export default async function ShopPage() {
-  const products = await getProducts();
-  const byType = {};
-  (products || []).forEach(p => {
-    const t = p.product_type || 'All Products';
-    if (!byType[t]) byType[t] = [];
-    byType[t].push(p);
-  });
+  const brandFolders = await getProductsByBrand();
 
   return (
     <>
       <section className="shop-nav">
         <div className="shop-nav__inner">
-          {Object.keys(byType).map(cat => (
-            <a key={cat} href={`#${cat.toLowerCase().replace(/\s/g, '-')}`} className="shop-nav__link">
-              {cat} <span className="shop-nav__count">({byType[cat].length})</span>
+          {brandFolders.map(folder => (
+            <a key={folder.handle} href={`#brand-${folder.handle}`} className="shop-nav__link">
+              {folder.label} <span className="shop-nav__count">({folder.products.length})</span>
             </a>
           ))}
           <a href={`${S}/collections/bodega`} className="shop-nav__link shop-nav__link--shopify">
@@ -28,19 +22,43 @@ export default async function ShopPage() {
         </div>
       </section>
 
-      {Object.entries(byType).map(([cat, items]) => (
-        <section key={cat} id={cat.toLowerCase().replace(/\s/g, '-')} className="shop">
-          <div className="shop__header">
-            <h2 className="shop__title">{cat} &mdash; {items.length}</h2>
-            <a href={`${S}/collections/bodega`} className="shop__link">View on Shopify &rarr;</a>
-          </div>
-          <div className="dgrid">
-            {items.map(p => (
-              <ColorCycleCard key={p.id} product={p} storeUrl={S} />
+      {brandFolders.map(folder => {
+        const byType = {};
+        folder.products.forEach(product => {
+          const type = product.product_type?.trim() || 'Other';
+          if (!byType[type]) byType[type] = [];
+          byType[type].push(product);
+        });
+        return (
+          <section key={folder.handle} id={`brand-${folder.handle}`} className="brand-folder">
+            <div className="brand-folder__header">
+              <div>
+                <span className="brand-folder__eyebrow">Brand Folder</span>
+                <h1 className="brand-folder__title">{folder.label}</h1>
+              </div>
+              <span className="brand-folder__count">{folder.products.length} products</span>
+            </div>
+            <nav className="brand-folder__categories" aria-label={`${folder.label} categories`}>
+              {Object.entries(byType).map(([type, items]) => (
+                <a key={type} href={`#${folder.handle}-${type.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}>
+                  {type} ({items.length})
+                </a>
+              ))}
+            </nav>
+            {Object.entries(byType).map(([type, items]) => (
+              <section key={type} id={`${folder.handle}-${type.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`} className="shop">
+                <div className="shop__header">
+                  <h2 className="shop__title">{type} &mdash; {items.length}</h2>
+                  <a href={`${S}/collections/${folder.handle}`} className="shop__link">View {folder.label} &rarr;</a>
+                </div>
+                <div className="dgrid">
+                  {items.map(product => <ColorCycleCard key={product.id} product={product} storeUrl={S} />)}
+                </div>
+              </section>
             ))}
-          </div>
-        </section>
-      ))}
+          </section>
+        );
+      })}
     </>
   );
 }
