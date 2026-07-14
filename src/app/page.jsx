@@ -1,4 +1,5 @@
 import { getProductsByBrand, formatPrice } from '@/lib/shopify';
+import { BRAND_GRAPHICS } from '@/lib/brandGraphics';
 
 export const dynamic = 'force-dynamic';
 const S = 'https://bodgeaworldwide.myshopify.com';
@@ -21,6 +22,36 @@ function ProductCard({ p }) {
         <div className="dc__price">{formatPrice(pr)}</div>
       </div>
     </article>
+  );
+}
+
+function BrandGraphic({ folder }) {
+  const graphic = BRAND_GRAPHICS[folder.handle];
+  if (!graphic) return null;
+
+  return (
+    <a href={`/shop#brand-${folder.handle}`} className="brand-campaign" aria-label={`Shop ${folder.label}`}>
+      {graphic.type === 'video' ? (
+        <video
+          className="brand-campaign__media"
+          src={graphic.src}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          aria-label={graphic.alt}
+        />
+      ) : (
+        <img className="brand-campaign__media" src={graphic.src} alt={graphic.alt} loading="lazy" />
+      )}
+      <span className="brand-campaign__shade" />
+      <span className="brand-campaign__copy">
+        <span className="brand-campaign__eyebrow">{graphic.eyebrow}</span>
+        <strong className="brand-campaign__title">{folder.label}</strong>
+        <span className="brand-campaign__link">Open folder &rarr;</span>
+      </span>
+    </a>
   );
 }
 
@@ -70,6 +101,7 @@ export default async function HomePage() {
         </div>
         {brandFolders.map(folder => (
           <section key={folder.handle} className="home-brand-folder">
+            <BrandGraphic folder={folder} />
             <div className="shop__header">
               <h3 className="shop__title">{folder.label} &mdash; {folder.products.length}</h3>
               <a href={`/shop#brand-${folder.handle}`} className="shop__link">Open folder &rarr;</a>

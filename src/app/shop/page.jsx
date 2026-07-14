@@ -1,5 +1,6 @@
 import { getProductsByBrand } from '@/lib/shopify';
 import ColorCycleCard from '@/components/ColorCycleCard';
+import { BRAND_GRAPHICS } from '@/lib/brandGraphics';
 
 export const dynamic = 'force-dynamic';
 const S = 'https://bodgeaworldwide.myshopify.com';
@@ -23,6 +24,7 @@ export default async function ShopPage() {
       </section>
 
       {brandFolders.map(folder => {
+        const graphic = BRAND_GRAPHICS[folder.handle];
         const byType = {};
         folder.products.forEach(product => {
           const type = product.product_type?.trim() || 'Other';
@@ -31,7 +33,10 @@ export default async function ShopPage() {
         });
         return (
           <section key={folder.handle} id={`brand-${folder.handle}`} className="brand-folder">
-            <div className="brand-folder__header">
+            <div
+              className={`brand-folder__header${graphic && graphic.type !== 'video' ? ' brand-folder__header--graphic' : ''}`}
+              style={graphic && graphic.type !== 'video' ? { backgroundImage: `linear-gradient(90deg, rgba(10,10,10,.94), rgba(10,10,10,.34)), url("${graphic.src}")` } : undefined}
+            >
               <div>
                 <span className="brand-folder__eyebrow">Brand Folder</span>
                 <h1 className="brand-folder__title">{folder.label}</h1>
