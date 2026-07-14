@@ -1,6 +1,7 @@
 import { getProductsByBrand } from '@/lib/shopify';
 import ColorCycleCard from '@/components/ColorCycleCard';
 import { BRAND_GRAPHICS } from '@/lib/brandGraphics';
+import { inferProductCategory } from '@/lib/productCategories';
 
 export const dynamic = 'force-dynamic';
 const S = 'https://bodgeaworldwide.myshopify.com';
@@ -27,7 +28,7 @@ export default async function ShopPage() {
         const graphic = BRAND_GRAPHICS[folder.handle];
         const byType = {};
         folder.products.forEach(product => {
-          const type = product.product_type?.trim() || 'Other';
+          const type = inferProductCategory(product);
           if (!byType[type]) byType[type] = [];
           byType[type].push(product);
         });

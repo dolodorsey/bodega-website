@@ -1,35 +1,32 @@
-const STORAGE = 'https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public';
-
 export const BRAND_GRAPHICS = {
   'myxx-1': {
-    src: `${STORAGE}/social-graphics/myxx/product/myxx_01_sportsbra_boudoir.png`,
-    eyebrow: 'MYXX / Campaign',
+    src: '/campaigns/myxx-real-product.png',
+    eyebrow: 'MYXX / Real Product Campaign',
     alt: 'MYXX campaign featuring the signature sports bra',
   },
   'pulse-usa': {
-    src: `${STORAGE}/brand-graphics/pulse_university/04_social_posts/WINDOW_DISPLAY_NEW_SEASON_SIGNAL.png`,
-    eyebrow: 'PULSE / New Season',
+    src: '/campaigns/pulse-real-product.png',
+    eyebrow: 'PULSE / Real Product Campaign',
     alt: 'PULSE new season campaign',
   },
   'stush-usa': {
-    src: `${STORAGE}/brand-graphics/stush/stush_brooklyn_stoop/045_stush___fafo_brooklyn_stoop.jpg`,
-    eyebrow: 'STUSH / Editorial',
+    src: '/campaigns/stush-real-product.png',
+    eyebrow: 'STUSH / Real Product Editorial',
     alt: 'STUSH Brooklyn editorial campaign',
   },
   'hakuna-matata': {
-    src: `${STORAGE}/brand-graphics/bodega/hakuna-matata/promo-01-library-caricature.png`,
-    eyebrow: 'HAKUNA MATATA / The Book',
+    src: '/campaigns/hakuna-real-product.png',
+    eyebrow: 'HAKUNA MATATA / Real Book Campaign',
     alt: 'Hakuna Matata library campaign',
   },
   'kollective-1': {
-    src: `${STORAGE}/brand-graphics/bodega/BODEGA_VID.mp4`,
-    eyebrow: 'KOLLECTIVE / BODEGA',
+    src: '/campaigns/kollective-real-product.png',
+    eyebrow: 'KOLLECTIVE / Real Product Campaign',
     alt: 'The Kollective BODEGA campaign',
-    type: 'video',
   },
   'make-atlanta-great-again': {
-    src: `${STORAGE}/social-graphics/maga/social/maga_social_01_ambassador_launch.png`,
-    eyebrow: 'MAGA / Atlanta',
+    src: '/campaigns/maga-real-product.png',
+    eyebrow: 'MAGA / Real Product Campaign',
     alt: 'Make Atlanta Great Again ambassador campaign',
   },
 };

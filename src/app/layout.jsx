@@ -23,6 +23,7 @@ export const metadata = {
     description: 'Costumes, party gear, and everything you need to pull up correct.',
     siteName: 'BODEGA',
     type: 'website',
+    images: ['/campaigns/kollective-real-product.png'],
   },
 };
 
