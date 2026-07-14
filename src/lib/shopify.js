@@ -24,8 +24,18 @@ async function shopifyFetch(path) {
 }
 
 export async function getProducts(limit = 250) {
-  const data = await shopifyFetch(`/collections/bodega/products.json?limit=${limit}`);
-  return data?.products || [];
+  const handles = [
+    'myxx-1',
+    'pulse-usa',
+    'stush-usa',
+    'hakuna-matata',
+    'kollective-1',
+    'make-atlanta-great-again',
+  ];
+  const collections = await Promise.all(
+    handles.map(handle => shopifyFetch(`/collections/${handle}/products.json?limit=${limit}`))
+  );
+  return collections.flatMap(data => data?.products || []);
 }
 
 export function formatPrice(price) {
