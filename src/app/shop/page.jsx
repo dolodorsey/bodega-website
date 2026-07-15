@@ -36,8 +36,13 @@ export default async function ShopPage() {
           <section key={folder.handle} id={`brand-${folder.handle}`} className="brand-folder">
             <div
               className={`brand-folder__header${graphic && graphic.type !== 'video' ? ' brand-folder__header--graphic' : ''}`}
-              style={graphic && graphic.type !== 'video' ? { backgroundImage: `linear-gradient(90deg, rgba(10,10,10,.82), rgba(10,10,10,.24)), url("${graphic.src}")` } : undefined}
             >
+              {graphic && graphic.type !== 'video' && (
+                <>
+                  <img className="brand-folder__background" src={graphic.src} alt="" aria-hidden="true" />
+                  <span className="brand-folder__shade" aria-hidden="true" />
+                </>
+              )}
               <div>
                 <span className="brand-folder__eyebrow">Brand Folder</span>
                 <h1 className="brand-folder__title">{folder.label}</h1>
