@@ -107,7 +107,7 @@ export default async function HomePage() {
               <a href={`/shop#brand-${folder.handle}`} className="shop__link">Open folder &rarr;</a>
             </div>
             <div className="dgrid">
-              {folder.products.map(product => <ProductCard key={product.id} p={product} />)}
+              {folder.products.slice(0, 6).map(product => <ProductCard key={product.id} p={product} />)}
             </div>
           </section>
         ))}
