@@ -1,5 +1,6 @@
 import { getProductsByBrand, formatPrice } from '@/lib/shopify';
 import { BRAND_GRAPHICS } from '@/lib/brandGraphics';
+import LandingVideo from '@/components/LandingVideo';
 
 export const dynamic = 'force-dynamic';
 const S = 'https://bodgeaworldwide.myshopify.com';
@@ -63,15 +64,7 @@ export default async function HomePage() {
     <>
       {/* HERO */}
       <section className="hero">
-        <video
-          className="hero__bg"
-          src="https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics/bodega/BODEGA_VID.mp4"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-        />
+        <LandingVideo />
         <div className="hero__overlay" />
         <div className="hero__content">
           <div className="hero__tag">The Party Starts Here</div>
