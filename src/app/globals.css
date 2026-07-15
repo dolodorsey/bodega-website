@@ -113,7 +113,10 @@ a{color:inherit;text-decoration:none}img{max-width:100%;height:auto;display:bloc
 .shop-nav__count{color:var(--ac2);font-weight:400}
 .shop-nav__link--shopify{color:var(--ac);margin-left:auto}
 .brand-folder{scroll-margin-top:112px;border-top:1px solid var(--tx10);background:var(--bg)}
-.brand-folder__header{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;padding:clamp(30px,5vw,72px) clamp(16px,3vw,48px) 24px;background:linear-gradient(135deg,var(--s2),var(--bg));border-bottom:1px solid var(--tx10)}
+.brand-folder__header{position:relative;isolation:isolate;overflow:hidden;display:flex;align-items:flex-end;justify-content:space-between;gap:24px;padding:clamp(30px,5vw,72px) clamp(16px,3vw,48px) 24px;background:linear-gradient(135deg,var(--s2),var(--bg));border-bottom:1px solid var(--tx10)}
+.brand-folder__header>div,.brand-folder__count{position:relative;z-index:2}
+.brand-folder__background{position:absolute;inset:0;z-index:0;width:100%;height:100%;object-fit:cover;object-position:center}
+.brand-folder__shade{position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(10,10,10,.82),rgba(10,10,10,.24))}
 .brand-folder__eyebrow{font-size:9px;font-weight:700;letter-spacing:.35em;text-transform:uppercase;color:var(--ac)}
 .brand-folder__title{font-family:var(--sf);font-size:clamp(46px,9vw,120px);font-weight:400;line-height:.88;letter-spacing:.04em;color:var(--tx);margin-top:10px}
 .brand-folder__count{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--tx50);white-space:nowrap}
@@ -129,7 +132,7 @@ a{color:inherit;text-decoration:none}img{max-width:100%;height:auto;display:bloc
 .brand-campaign__eyebrow{font-size:8px;font-weight:600;letter-spacing:.32em;text-transform:uppercase;color:var(--ac);margin-bottom:10px}
 .brand-campaign__title{font-family:var(--sf);font-size:clamp(42px,8vw,106px);font-weight:400;line-height:.9;letter-spacing:.05em;text-transform:uppercase;color:var(--tx)}
 .brand-campaign__link{margin-top:18px;padding-bottom:3px;border-bottom:1px solid var(--tx50);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--tx)}
-.brand-folder__header--graphic{min-height:clamp(180px,22vw,300px);background-size:cover;background-position:center;align-items:flex-end}
+.brand-folder__header--graphic{min-height:clamp(180px,22vw,300px);align-items:flex-end}
 @media(max-width:640px){.brand-folder__header{align-items:flex-start;flex-direction:column}.brand-folder__count{white-space:normal}}
 
 @keyframes su{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
