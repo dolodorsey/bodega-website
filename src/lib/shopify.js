@@ -32,6 +32,7 @@ export async function getProducts(limit = 250) {
 }
 
 export const BRAND_COLLECTIONS = [
+  { handle: 'bodega', label: 'BODEGA' },
   { handle: 'myxx-1', label: 'MYXX' },
   { handle: 'pulse-usa', label: 'PULSE USA' },
   { handle: 'stush-usa', label: 'STUSH USA' },
@@ -50,7 +51,37 @@ export async function getProductsByBrand(limit = 250) {
   return collections.filter(collection => collection.products.length > 0);
 }
 
+export async function getProductByHandle(handle) {
+  if (!handle) return null;
+  const data = await shopifyFetch(`/products/${encodeURIComponent(handle)}.json`);
+  return data?.product || null;
+}
+
 export function formatPrice(price) {
   const num = parseFloat(price);
   return Number.isNaN(num) ? '' : '$' + num.toFixed(2);
+}
+
+const HTML_ENTITIES = {
+  amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ',
+  ldquo: '“', rdquo: '”', lsquo: '‘', rsquo: '’',
+  mdash: '—', ndash: '–', hellip: '…',
+};
+
+// Flattens body_html to plain text. Used for <meta> descriptions only —
+// the product page itself renders the full rich HTML.
+export function plainDescription(html, limit = 160) {
+  if (!html) return '';
+  const text = String(html)
+    .replace(/<(script|style)[\s\S]*?<\/\1>/gi, ' ')
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/&#(\d+);/g, (_, code) => String.fromCharCode(Number(code)))
+    .replace(/&([a-z]+);/gi, (match, name) => HTML_ENTITIES[name.toLowerCase()] ?? match)
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  if (text.length <= limit) return text;
+  const clipped = text.slice(0, limit);
+  const lastSpace = clipped.lastIndexOf(' ');
+  return `${(lastSpace > limit * 0.6 ? clipped.slice(0, lastSpace) : clipped).replace(/[\s.,;:—-]+$/, '')}…`;
 }

@@ -50,15 +50,10 @@ function getBrandSource(product) {
   return 'bodega';
 }
 
-function trackedProductUrl(storeUrl, handle, brandSource) {
-  const params = new URLSearchParams({
-    utm_source: brandSource,
-    utm_medium: 'bodega_storefront',
-    utm_campaign: 'brand_store',
-    brand_source: brandSource,
-    landing_brand: 'bodega',
-  });
-  return `${storeUrl}/products/${handle}?${params.toString()}`;
+// Product cards open the internal BODEGA detail page; attribution is applied
+// on the cart deeplink from there.
+function productUrl(handle) {
+  return `/products/${handle}`;
 }
 
 function trackedCartUrl(storeUrl, variantId, brandSource) {
@@ -125,7 +120,7 @@ export default function ColorCycleCard({ product, storeUrl }) {
 
   const currentVariantId = cycleImages[activeIndex]?.variantId || firstVariantId;
   const brandSource = getBrandSource(product);
-  const destination = trackedProductUrl(storeUrl, handle, brandSource);
+  const destination = productUrl(handle);
   const ctaDestination = requiresSelection
     ? destination
     : trackedCartUrl(storeUrl, currentVariantId, brandSource);

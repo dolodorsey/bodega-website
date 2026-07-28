@@ -15,16 +15,39 @@ const body = Outfit({
   display: 'swap',
 });
 
+const BRAND_DESCRIPTION =
+  'The corner store, curated. BODEGA stocks its own apparel — tees, caps, hoodies, pants, shorts, socks — and carries STUSH, PULSE, MYXX, MAGA and Kollective on the same shelf. Staples built for rotation.';
+
 export const metadata = {
-  title: 'BODEGA — Costumes, Party Gear & Good Times',
-  description: 'Your one-stop party shop. Costumes, accessories, and everything you need to pull up correct.',
+  title: 'BODEGA — Apparel Essentials, Curated',
+  description: BRAND_DESCRIPTION,
   openGraph: {
-    title: 'BODEGA',
-    description: 'Costumes, party gear, and everything you need to pull up correct.',
+    title: 'BODEGA — Apparel Essentials, Curated',
+    description:
+      'Apparel stocked for rotation. The house that carries STUSH, PULSE, MYXX, MAGA and Kollective.',
     siteName: 'BODEGA',
     type: 'website',
-    images: ['/campaigns/kollective-real-product.png'],
+    locale: 'en_US',
+    images: [
+      {
+        url: '/campaigns/kollective-real-product.png',
+        width: 1200,
+        height: 630,
+        alt: 'BODEGA apparel — curated essentials on the shelf',
+      },
+    ],
   },
+};
+
+const JSON_LD = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'BODEGA',
+  description: BRAND_DESCRIPTION,
+  slogan: 'Curated essentials, corner store hours.',
+  brand: ['BODEGA', 'STUSH', 'PULSE', 'MYXX', 'MAGA', 'Kollective'],
+  parentOrganization: { '@type': 'Organization', name: 'The Kollective Hospitality Group' },
+  address: { '@type': 'PostalAddress', addressLocality: 'Atlanta', addressRegion: 'GA', addressCountry: 'US' },
 };
 
 const SHOPIFY = 'https://bodgeaworldwide.myshopify.com';
@@ -38,6 +61,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${display.variable} ${body.variable}`}>
       <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
+        />
         <nav className="nav">
           <a href="/" className="nav__logo">Bodega</a>
           <ul className="nav__links">
@@ -56,7 +83,7 @@ export default function RootLayout({ children }) {
             <div>
               <div className="footer__brand">Bodega</div>
               <p className="footer__desc">
-                Your one-stop party shop. Costumes, accessories, and everything you need to show up and show out. Part of The Kollective Hospitality Group.
+                The corner store, curated. Our own apparel on the shelf next to STUSH, PULSE, MYXX, MAGA and Kollective. Part of The Kollective Hospitality Group.
               </p>
             </div>
             <div>
