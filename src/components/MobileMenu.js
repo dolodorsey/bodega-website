@@ -6,7 +6,7 @@ export default function MobileMenu() {
   const S = 'https://bodgeaworldwide.myshopify.com';
   const links = [
     { label: 'Shop All', href: '/shop' },
-    { label: 'Costumes', href: `${S}/collections/bodega` },
+    { label: 'New Arrivals', href: `${S}/collections/new-arrivals` },
     { label: 'Cart', href: `${S}/cart` },
   ];
   return (

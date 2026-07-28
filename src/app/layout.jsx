@@ -54,7 +54,7 @@ const SHOPIFY = 'https://bodgeaworldwide.myshopify.com';
 
 const NAV = [
   { label: 'Shop All', href: '/shop' },
-  { label: 'Costumes', href: `${SHOPIFY}/collections/bodega` },
+  { label: 'New Arrivals', href: `${SHOPIFY}/collections/new-arrivals` },
 ];
 
 export default function RootLayout({ children }) {
@@ -104,7 +104,7 @@ export default function RootLayout({ children }) {
             </div>
           </div>
           <div className="footer__bottom">
-            <span>&copy; 2026 BODEGA &mdash; PULL UP CORRECT</span>
+            <span>&copy; 2026 BODEGA &mdash; THE CORNER STORE, CURATED</span>
             <span>A Kollective Hospitality Group brand</span>
           </div>
         </footer>

@@ -67,9 +67,9 @@ export default async function HomePage() {
         <LandingVideo />
         <div className="hero__overlay" />
         <div className="hero__content">
-          <div className="hero__tag">The Party Starts Here</div>
-          <h1 className="hero__title">Bodega<br /><em>Party Shop</em></h1>
-          <p className="hero__sub">Costumes, accessories, and everything you need to pull up correct. Don&rsquo;t show up basic.</p>
+          <div className="hero__tag">The Corner Store, Curated</div>
+          <h1 className="hero__title">Bodega<br /><em>Apparel Essentials</em></h1>
+          <p className="hero__sub">Tees, caps, hoodies, pants. Our own shelf, plus STUSH, PULSE, MYXX, MAGA and Kollective.</p>
           <div className="hero__actions">
             <a href="/shop" className="btn-primary">Shop Now</a>
             <a href={`${S}/collections/bodega`} className="btn-secondary">View All</a>
@@ -81,7 +81,7 @@ export default async function HomePage() {
       <div className="announce">
         <div className="announce__track">
           {[...Array(8)].map((_, i) => (
-            <span key={i} className="announce__item">PULL UP CORRECT &bull; COSTUMES &amp; PARTY GEAR &bull;</span>
+            <span key={i} className="announce__item">STOCKED DAILY &bull; APPAREL &amp; ESSENTIALS &bull;</span>
           ))}
         </div>
       </div>
@@ -109,8 +109,8 @@ export default async function HomePage() {
       {/* MANIFESTO */}
       <section className="manifesto">
         <p className="manifesto__text">
-          Don&rsquo;t be the one who showed up in a basic costume from the gas station.
-          <strong> Pull up correct. Stand out. Be the moment.</strong>
+          Every brand on the shelf gets its own room. One checkout, one cart, one place that keeps it stocked.
+          <strong> That is the whole idea.</strong>
         </p>
       </section>
 
@@ -118,7 +118,7 @@ export default async function HomePage() {
       <section className="marquee">
         <div className="marquee__track">
           {[...Array(6)].map((_, i) => (
-            <span key={i} className="marquee__item">BODEGA &bull; PULL UP CORRECT &bull; COSTUMES &amp; PARTY GEAR &bull; THE KOLLECTIVE &bull;</span>
+            <span key={i} className="marquee__item">BODEGA &bull; APPAREL &amp; ESSENTIALS &bull; STOCKED DAILY &bull; THE KOLLECTIVE &bull;</span>
           ))}
         </div>
       </section>
@@ -127,7 +127,7 @@ export default async function HomePage() {
       <section className="movement" id="subscribe">
         <div className="movement__tag">Stay Ready</div>
         <h2 className="movement__title">Get the Drop First</h2>
-        <p className="movement__desc">New costumes, seasonal drops, and party gear alerts before anybody else.</p>
+        <p className="movement__desc">New arrivals, seasonal drops, and restocks before they hit the shelf.</p>
         <div className="movement__form">
           <input type="email" className="movement__input" placeholder="Enter your email" />
           <button className="movement__submit">Join</button>
