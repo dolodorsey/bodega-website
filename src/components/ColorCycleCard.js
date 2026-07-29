@@ -40,6 +40,13 @@ function productUrl(handle) {
   return `/products/${handle}`;
 }
 
+const FEATURED_COVER_POSITION = {
+  'mens-breathable-casual-t-shirt-cotton-dtg-4': 4,
+  'mens-breathable-casual-t-shirt-cotton-dtg-2': 3,
+  'mens-retro-heavyweight-washed-t-shirt-cotton-dtg-7': 6,
+  'mens-retro-heavyweight-washed-t-shirt-cotton-dtg-6': 3,
+};
+
 export default function ColorCycleCard({ product }) {
   const { title, handle, variants = [], images = [], options = [] } = product;
   const availableVariants = variants.filter(variant => variant.available !== false);
@@ -49,9 +56,13 @@ export default function ColorCycleCard({ product }) {
     images.length > 1 &&
     /(cap|hat|visor)/i.test(`${product.product_type || ''} ${title || ''}`) &&
     (!firstVariantImage || firstVariantImage === images?.[0]?.src);
-  const firstImage = hasSupplierSpecCover
+  const featuredPosition = FEATURED_COVER_POSITION[handle];
+  const featuredCover = featuredPosition
+    ? images.find(image => image.position === featuredPosition)?.src
+    : null;
+  const firstImage = featuredCover || (hasSupplierSpecCover
     ? images[1]?.src
-    : firstVariantImage || images?.[0]?.src;
+    : firstVariantImage || images?.[0]?.src);
   const firstVariantId = firstVariant?.id;
   const price = availableVariants?.[0]?.price || variants?.[0]?.price;
   if (!firstImage || !firstVariantId) return null;
@@ -76,7 +87,11 @@ export default function ColorCycleCard({ product }) {
   const cycleImages = hasMultipleColors
     ? colorImages.map(color => ({ src: color.src, label: color.color, variantId: color.variantId }))
     : images.length > 1
-      ? (hasSupplierSpecCover ? [...images.slice(1), images[0]] : images)
+      ? [
+          ...images.filter(image => image.src === firstImage),
+          ...(hasSupplierSpecCover ? [...images.slice(1), images[0]] : images)
+            .filter(image => image.src !== firstImage),
+        ]
           .slice(0, 6)
           .map(image => ({ src: image.src, label: '', variantId: firstVariantId }))
       : [{ src: firstImage, label: '', variantId: firstVariantId }];

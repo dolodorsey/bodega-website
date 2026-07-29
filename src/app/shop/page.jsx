@@ -44,7 +44,7 @@ export default async function ShopPage() {
                 </>
               )}
               <div>
-                <span className="brand-folder__eyebrow">Brand Folder</span>
+                <span className="brand-folder__eyebrow">Collection</span>
                 <h1 className="brand-folder__title">{folder.label}</h1>
               </div>
               <span className="brand-folder__count">{folder.products.length} products</span>
@@ -59,7 +59,7 @@ export default async function ShopPage() {
             {Object.entries(byType).map(([type, items]) => (
               <section key={type} id={`${folder.handle}-${type.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`} className="shop">
                 <div className="shop__header">
-                  <h2 className="shop__title">{type} &mdash; {items.length}</h2>
+                  <h2 className="shop__title">{folder.label} / {type} &mdash; {items.length}</h2>
                   <a href={`${S}/collections/${folder.handle}`} className="shop__link">View {folder.label} &rarr;</a>
                 </div>
                 <div className="dgrid">
