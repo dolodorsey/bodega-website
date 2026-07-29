@@ -201,3 +201,12 @@ a{color:inherit;text-decoration:none}img{max-width:100%;height:auto;display:bloc
 @keyframes mq{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 .mobile-menu-btn{display:none;background:none;border:none;cursor:pointer;padding:8px;z-index:1001}
 @media(max-width:768px){.mobile-menu-btn{display:block}}
+.pdp__assurance{
+  margin-top:18px;padding:16px 0;border-top:1px solid var(--tx06);border-bottom:1px solid var(--tx06);
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;
+  font-size:9px;letter-spacing:.14em;text-transform:uppercase
+}
+.pdp__assurance span{display:flex;align-items:center;gap:8px}
+.pdp__assurance span::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.55}
+.pdp__hint{margin-top:12px;font-size:12px;line-height:1.5}
+@media(max-width:700px){.pdp__assurance{grid-template-columns:1fr}}

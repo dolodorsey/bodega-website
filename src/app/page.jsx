@@ -9,7 +9,6 @@ function ProductCard({ p }) {
   const variant = p.variants?.find(item => item.available !== false) || p.variants?.[0];
   const img = p.images?.find(image => image.id === variant?.image_id)?.src || p.images?.[0]?.src;
   const pr = variant?.price;
-  const vid = variant?.id;
   const requiresSelection = (p.variants?.length || 0) > 1;
   const productUrl = `/products/${p.handle}`;
   if (!img) return null;
@@ -19,8 +18,8 @@ function ProductCard({ p }) {
         <a href={productUrl} aria-label={`View ${p.title}`}>
           <img src={img} alt={p.title} className="dc__img" loading="lazy" />
         </a>
-        <a href={requiresSelection ? productUrl : `${S}/cart/${vid}:1`} className="dc__cta">
-          {requiresSelection ? 'Choose Options' : 'Add to Cart'}
+        <a href={productUrl} className="dc__cta">
+          {requiresSelection ? 'Choose Options' : 'View Product'}
         </a>
       </div>
       <div className="dc__info">

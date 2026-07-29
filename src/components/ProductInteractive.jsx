@@ -8,28 +8,12 @@ import { useMemo, useState } from 'react';
 //   product — Shopify product JSON from /products/{handle}.json
 //   store   — 'https://bodgeaworldwide.myshopify.com' (includes protocol)
 
-// Same attribution the storefront cards already carry, so BODEGA keeps
-// credit for the sale through checkout.
-function trackedCartUrl(storeUrl, variantId) {
-  const params = new URLSearchParams({
-    utm_source: 'bodega',
-    utm_medium: 'storefront',
-    utm_campaign: 'brand_store',
-    brand_source: 'bodega',
-    landing_brand: 'bodega',
-    'attributes[brand_source]': 'bodega',
-    'attributes[landing_brand]': 'bodega',
-  });
-  if (!variantId) return `${storeUrl}/cart?${params.toString()}`;
-  return `${storeUrl}/cart/${variantId}:1?${params.toString()}`;
-}
-
 function money(value) {
   const num = Number.parseFloat(value);
   return Number.isNaN(num) ? '' : `$${num.toFixed(2)}`;
 }
 
-export default function ProductInteractive({ product, store }) {
+export default function ProductInteractive({ product }) {
   const images = product.images || [];
   const variants = product.variants || [];
   const options = (product.options || []).filter(
@@ -46,6 +30,8 @@ export default function ProductInteractive({ product, store }) {
   });
 
   const [activeImage, setActiveImage] = useState(0);
+  const [checkingOut, setCheckingOut] = useState(false);
+  const [checkoutError, setCheckoutError] = useState('');
 
   const variant = useMemo(() => {
     if (variants.length === 0) return null;
@@ -60,7 +46,29 @@ export default function ProductInteractive({ product, store }) {
   const soldOut = !variant || variant.available === false;
   const price = money(variant?.price ?? variants[0]?.price);
   const comparePrice = money(variant?.compare_at_price);
-  const cartUrl = trackedCartUrl(store, variant?.id);
+  async function beginCheckout() {
+    if (!variant || soldOut) return;
+    setCheckingOut(true);
+    setCheckoutError('');
+    try {
+      const response = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          productHandle: product.handle,
+          variantId: variant.id,
+          variantTitle: variant.title,
+          quantity: 1,
+        }),
+      });
+      const data = await response.json();
+      if (!response.ok || !data.checkoutUrl) throw new Error(data.message || 'Checkout is unavailable.');
+      window.location.assign(data.checkoutUrl);
+    } catch (error) {
+      setCheckoutError(error instanceof Error ? error.message : 'Checkout is unavailable.');
+      setCheckingOut(false);
+    }
+  }
 
   function chooseOption(name, value) {
     setSelected(previous => {
@@ -167,13 +175,19 @@ export default function ProductInteractive({ product, store }) {
                 Sold Out
               </span>
             ) : (
-              <a href={cartUrl} className="btn-primary">
-                Add to Cart
-              </a>
+              <button type="button" onClick={beginCheckout} className="btn-primary" disabled={checkingOut}>
+                {checkingOut ? 'Checking the shelf…' : 'Buy now — secure checkout'}
+              </button>
             )}
             <a href="/shop" className="btn-secondary">
               Keep Browsing
             </a>
+          </div>
+          {checkoutError && <p className="pdp__hint" role="alert">{checkoutError}</p>}
+          <div className="pdp__assurance" aria-label="Purchase assurances">
+            <span>Live availability verified</span>
+            <span>Secure Shopify checkout</span>
+            <span>One cart across every Bodega brand</span>
           </div>
 
           {product.body_html && (

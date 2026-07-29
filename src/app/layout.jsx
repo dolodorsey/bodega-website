@@ -19,6 +19,7 @@ const BRAND_DESCRIPTION =
   'The corner store, curated. BODEGA stocks its own apparel — tees, caps, hoodies, pants, shorts, socks — and carries STUSH, PULSE, MYXX, MAGA and Kollective on the same shelf. Staples built for rotation.';
 
 export const metadata = {
+  metadataBase: new URL('https://www.bodegabodegabodega.com'),
   title: 'BODEGA — Apparel Essentials, Curated',
   description: BRAND_DESCRIPTION,
   openGraph: {
@@ -54,7 +55,7 @@ const SHOPIFY = 'https://bodgeaworldwide.myshopify.com';
 
 const NAV = [
   { label: 'Shop All', href: '/shop' },
-  { label: 'New Arrivals', href: `${SHOPIFY}/collections/new-arrivals` },
+  { label: 'New Arrivals', href: '/shop' },
 ];
 
 export default function RootLayout({ children }) {

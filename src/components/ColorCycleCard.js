@@ -34,40 +34,13 @@ function getSwatchColor(colorName) {
   return COLOR_MAP[colorName] || '#555';
 }
 
-function getBrandSource(product) {
-  const rawTags = Array.isArray(product?.tags)
-    ? product.tags
-    : String(product?.tags || '').split(',').map(tag => tag.trim());
-  const brandTag = rawTags.find(tag => String(tag).toLowerCase().startsWith('brand:'));
-  if (brandTag) return String(brandTag).split(':')[1].toLowerCase().replace(/[^a-z0-9-]+/g, '-');
-
-  const vendor = String(product?.vendor || '').toLowerCase();
-  if (vendor.includes('stush')) return 'stush';
-  if (vendor.includes('pulse')) return 'pulse';
-  if (vendor.includes('myxx')) return 'myxx';
-  if (vendor.includes('maga')) return 'maga';
-  if (vendor.includes('hakuna')) return 'hakuna-matata';
-  return 'bodega';
-}
-
 // Product cards open the internal BODEGA detail page; attribution is applied
 // on the cart deeplink from there.
 function productUrl(handle) {
   return `/products/${handle}`;
 }
 
-function trackedCartUrl(storeUrl, variantId, brandSource) {
-  const params = new URLSearchParams({
-    utm_source: brandSource,
-    utm_medium: 'bodega_storefront',
-    utm_campaign: 'brand_store',
-    'attributes[brand_source]': brandSource,
-    'attributes[landing_brand]': 'bodega',
-  });
-  return `${storeUrl}/cart/${variantId}:1?${params.toString()}`;
-}
-
-export default function ColorCycleCard({ product, storeUrl }) {
+export default function ColorCycleCard({ product }) {
   const { title, handle, variants = [], images = [], options = [] } = product;
   const availableVariants = variants.filter(variant => variant.available !== false);
   const firstVariant = availableVariants?.[0] || variants?.[0];
@@ -120,12 +93,8 @@ export default function ColorCycleCard({ product, storeUrl }) {
     clearInterval(intervalRef.current);
   }, []);
 
-  const currentVariantId = cycleImages[activeIndex]?.variantId || firstVariantId;
-  const brandSource = getBrandSource(product);
   const destination = productUrl(handle);
-  const ctaDestination = requiresSelection
-    ? destination
-    : trackedCartUrl(storeUrl, currentVariantId, brandSource);
+  const ctaDestination = destination;
   const priceNumber = Number.parseFloat(price || 0);
   const priceString = `$${priceNumber.toFixed(2)}`;
 
@@ -171,7 +140,7 @@ export default function ColorCycleCard({ product, storeUrl }) {
         )}
 
         <a href={ctaDestination} className="dc__cta">
-          {requiresSelection ? 'Choose Options' : 'Add to Cart'}
+          {requiresSelection ? 'Choose Options' : 'View Product'}
         </a>
       </div>
 
