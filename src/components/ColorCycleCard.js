@@ -70,8 +70,10 @@ function trackedCartUrl(storeUrl, variantId, brandSource) {
 export default function ColorCycleCard({ product, storeUrl }) {
   const { title, handle, variants = [], images = [], options = [] } = product;
   const availableVariants = variants.filter(variant => variant.available !== false);
-  const firstImage = images?.[0]?.src;
-  const firstVariantId = availableVariants?.[0]?.id || variants?.[0]?.id;
+  const firstVariant = availableVariants?.[0] || variants?.[0];
+  const firstVariantImage = images.find(image => image.id === firstVariant?.image_id)?.src;
+  const firstImage = firstVariantImage || images?.[0]?.src;
+  const firstVariantId = firstVariant?.id;
   const price = availableVariants?.[0]?.price || variants?.[0]?.price;
   if (!firstImage || !firstVariantId) return null;
 

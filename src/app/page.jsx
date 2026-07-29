@@ -6,20 +6,25 @@ export const dynamic = 'force-dynamic';
 const S = 'https://bodgeaworldwide.myshopify.com';
 
 function ProductCard({ p }) {
-  const img = p.images?.[0]?.src;
-  const pr = p.variants?.[0]?.price;
-  const vid = p.variants?.[0]?.id;
+  const variant = p.variants?.find(item => item.available !== false) || p.variants?.[0];
+  const img = p.images?.find(image => image.id === variant?.image_id)?.src || p.images?.[0]?.src;
+  const pr = variant?.price;
+  const vid = variant?.id;
+  const requiresSelection = (p.variants?.length || 0) > 1;
+  const productUrl = `/products/${p.handle}`;
   if (!img) return null;
   return (
     <article className="dc">
       <div className="dc__wrap">
-        <a href={`${S}/products/${p.handle}`} aria-label={`View ${p.title}`}>
+        <a href={productUrl} aria-label={`View ${p.title}`}>
           <img src={img} alt={p.title} className="dc__img" loading="lazy" />
         </a>
-        <a href={`${S}/cart/${vid}:1`} className="dc__cta">Add to Cart</a>
+        <a href={requiresSelection ? productUrl : `${S}/cart/${vid}:1`} className="dc__cta">
+          {requiresSelection ? 'Choose Options' : 'Add to Cart'}
+        </a>
       </div>
       <div className="dc__info">
-        <a href={`${S}/products/${p.handle}`} className="dc__name">{p.title}</a>
+        <a href={productUrl} className="dc__name">{p.title}</a>
         <div className="dc__price">{formatPrice(pr)}</div>
       </div>
     </article>
