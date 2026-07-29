@@ -19,6 +19,9 @@ export default function ProductInteractive({ product }) {
   const options = (product.options || []).filter(
     option => option.name && option.name !== 'Title'
   );
+  const hasSupplierSpecCover =
+    images.length > 1 &&
+    /(cap|hat|visor)/i.test(`${product.product_type || ''} ${product.title || ''}`);
 
   const [selected, setSelected] = useState(() => {
     const initial = {};
@@ -29,7 +32,7 @@ export default function ProductInteractive({ product }) {
     return initial;
   });
 
-  const [activeImage, setActiveImage] = useState(0);
+  const [activeImage, setActiveImage] = useState(hasSupplierSpecCover ? 1 : 0);
   const [checkingOut, setCheckingOut] = useState(false);
   const [checkoutError, setCheckoutError] = useState('');
 
@@ -79,7 +82,7 @@ export default function ProductInteractive({ product }) {
       const imageIndex = match?.image_id
         ? images.findIndex(image => image.id === match.image_id)
         : -1;
-      if (imageIndex > -1) setActiveImage(imageIndex);
+      if (imageIndex > -1) setActiveImage(hasSupplierSpecCover && imageIndex === 0 ? 1 : imageIndex);
       return next;
     });
   }

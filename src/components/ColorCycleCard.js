@@ -45,7 +45,13 @@ export default function ColorCycleCard({ product }) {
   const availableVariants = variants.filter(variant => variant.available !== false);
   const firstVariant = availableVariants?.[0] || variants?.[0];
   const firstVariantImage = images.find(image => image.id === firstVariant?.image_id)?.src;
-  const firstImage = firstVariantImage || images?.[0]?.src;
+  const hasSupplierSpecCover =
+    images.length > 1 &&
+    /(cap|hat|visor)/i.test(`${product.product_type || ''} ${title || ''}`) &&
+    (!firstVariantImage || firstVariantImage === images?.[0]?.src);
+  const firstImage = hasSupplierSpecCover
+    ? images[1]?.src
+    : firstVariantImage || images?.[0]?.src;
   const firstVariantId = firstVariant?.id;
   const price = availableVariants?.[0]?.price || variants?.[0]?.price;
   if (!firstImage || !firstVariantId) return null;
@@ -70,7 +76,9 @@ export default function ColorCycleCard({ product }) {
   const cycleImages = hasMultipleColors
     ? colorImages.map(color => ({ src: color.src, label: color.color, variantId: color.variantId }))
     : images.length > 1
-      ? images.slice(0, 6).map(image => ({ src: image.src, label: '', variantId: firstVariantId }))
+      ? (hasSupplierSpecCover ? [...images.slice(1), images[0]] : images)
+          .slice(0, 6)
+          .map(image => ({ src: image.src, label: '', variantId: firstVariantId }))
       : [{ src: firstImage, label: '', variantId: firstVariantId }];
 
   const [activeIndex, setActiveIndex] = useState(0);
