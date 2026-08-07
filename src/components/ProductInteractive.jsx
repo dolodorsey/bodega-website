@@ -3,10 +3,8 @@
 import { useMemo, useState } from 'react';
 
 // Client-side product detail: variant selection across every option name,
-// image gallery with thumbnails, and an attributed cart deeplink.
-// Props:
-//   product — Shopify product JSON from /products/{handle}.json
-//   store   — 'https://bodgeaworldwide.myshopify.com' (includes protocol)
+// image gallery with thumbnails, and secure Stripe checkout through the
+// Kollective payment rail. Shopify remains catalog-only during migration.
 
 function money(value) {
   const num = Number.parseFloat(value);
@@ -49,6 +47,7 @@ export default function ProductInteractive({ product }) {
   const soldOut = !variant || variant.available === false;
   const price = money(variant?.price ?? variants[0]?.price);
   const comparePrice = money(variant?.compare_at_price);
+
   async function beginCheckout() {
     if (!variant || soldOut) return;
     setCheckingOut(true);
@@ -179,7 +178,7 @@ export default function ProductInteractive({ product }) {
               </span>
             ) : (
               <button type="button" onClick={beginCheckout} className="btn-primary" disabled={checkingOut}>
-                {checkingOut ? 'Checking the shelf…' : 'Buy now — secure checkout'}
+                {checkingOut ? 'Opening secure checkout…' : 'Buy now — secure checkout'}
               </button>
             )}
             <a href="/shop" className="btn-secondary">
@@ -189,8 +188,8 @@ export default function ProductInteractive({ product }) {
           {checkoutError && <p className="pdp__hint" role="alert">{checkoutError}</p>}
           <div className="pdp__assurance" aria-label="Purchase assurances">
             <span>Live availability verified</span>
-            <span>Secure Shopify checkout</span>
-            <span>One cart across every Bodega brand</span>
+            <span>Secure Stripe checkout</span>
+            <span>Brand-separated order tracking</span>
           </div>
 
           {product.body_html && (
