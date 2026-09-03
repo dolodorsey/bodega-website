@@ -29,6 +29,15 @@ function BrandRoom({ folder, index }) {
   );
 }
 
+const FLOOR = [
+  ['01','THE COOLER','Beverages + cold drops','/shop'],
+  ['02','STREET RACK','STUSH, city uniforms + new apparel','/shop'],
+  ['03','SPORT CAGE','PULSE, MYXX + performance','/shop'],
+  ['04','DAILY SHELF','Essentials worth keeping stocked','/shop'],
+  ['05','OBJECTS','Books, tech, culture + useful things','/shop'],
+  ['06','BACK ROOM','Limited drops + things not for everybody','/shop'],
+];
+
 export default async function HomePage() {
   const brandFolders = await getProductsByBrand();
   const allProducts = brandFolders.flatMap(folder => folder.products);
@@ -44,7 +53,7 @@ export default async function HomePage() {
         <div className="store-hero__content">
           <span className="store-kicker">BODEGA / THE CORNER STORE, REBUILT</span>
           <h1><span>EVERYTHING</span><span>GOOD IS</span><em>ON THE SHELF.</em></h1>
-          <div className="store-hero__bottom"><p>{productCount} pieces across independent rooms. Fashion, performance, city uniforms and the things worth finding.</p><div><a href="/shop" className="store-btn">ENTER THE STORE</a><a href="#rooms" className="store-link">BROWSE ROOMS ↗</a></div></div>
+          <div className="store-hero__bottom"><p>{productCount} pieces across independent rooms. Fashion, performance, city uniforms and the things worth finding.</p><div><a href="#floor" className="store-btn">ENTER THE STORE</a><a href="#rooms" className="store-link">BROWSE ROOMS ↗</a></div></div>
         </div>
       </section>
 
@@ -52,6 +61,14 @@ export default async function HomePage() {
         <header><span className="store-kicker">DIRECTORY / LEVEL 01</span><h2>SHOP BY<br/>DEPARTMENT.</h2></header>
         <div className="store-departments__list">
           {[['NEW IN','The newest pieces across the store'],['STREET','STUSH, BODEGA and city uniforms'],['SPORT','PULSE, MYXX and performance'],['HEADWEAR','Caps, visors and daily rotation'],['ESSENTIALS','The pieces that stay stocked'],['BOOKS + OBJECTS','Culture beyond the closet']].map(([name,note],i)=><a href="/shop" key={name}><span>0{i+1}</span><strong>{name}</strong><em>{note}</em><i>↗</i></a>)}
+        </div>
+      </section>
+
+      <section className="store-floorplan" id="floor">
+        <header className="store-floorplan__head"><span className="store-kicker">STORE MAP / WALK IT YOUR WAY</span><h2>THE DIGITAL<br/>CORNER STORE.</h2><p>Browse like a store, not a spreadsheet. Every zone has a different purpose, and the Back Room is where limited product gets weird.</p></header>
+        <div className="store-floorplan__map" aria-label="BODEGA digital store map">
+          {FLOOR.map(([no,name,note,href],index)=><a className={`store-zone store-zone--${index+1}`} href={href} key={name}><small>{no} / AISLE</small><strong>{name}</strong><span>{note}</span><i>ENTER ↗</i></a>)}
+          <div className="store-map-counter" aria-hidden="true"><b>BODEGA</b><span>CHECKOUT / ASK SOMEBODY</span></div>
         </div>
       </section>
 
