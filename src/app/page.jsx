@@ -3,140 +3,77 @@ import { BRAND_GRAPHICS } from '@/lib/brandGraphics';
 import LandingVideo from '@/components/LandingVideo';
 
 export const dynamic = 'force-dynamic';
-const S = 'https://bodgeaworldwide.myshopify.com';
 
-function ProductCard({ p }) {
+function ProductObject({ p, index }) {
   const variant = p.variants?.find(item => item.available !== false) || p.variants?.[0];
   const img = p.images?.find(image => image.id === variant?.image_id)?.src || p.images?.[0]?.src;
-  const pr = variant?.price;
-  const requiresSelection = (p.variants?.length || 0) > 1;
-  const productUrl = `/products/${p.handle}`;
   if (!img) return null;
   return (
-    <article className="dc">
-      <div className="dc__wrap">
-        <a href={productUrl} aria-label={`View ${p.title}`}>
-          <img src={img} alt={p.title} className="dc__img" loading="lazy" />
-        </a>
-        <a href={productUrl} className="dc__cta">
-          {requiresSelection ? 'Choose Options' : 'View Product'}
-        </a>
-      </div>
-      <div className="dc__info">
-        <a href={productUrl} className="dc__name">{p.title}</a>
-        <div className="dc__price">{formatPrice(pr)}</div>
-      </div>
-    </article>
+    <a href={`/products/${p.handle}`} className="store-object" aria-label={`View ${p.title}`}>
+      <span className="store-object__no">{String(index + 1).padStart(2,'0')}</span>
+      <div className="store-object__media"><img src={img} alt={p.title} loading="lazy"/><i>VIEW ↗</i></div>
+      <div className="store-object__meta"><span>{p.title}</span><strong>{formatPrice(variant?.price)}</strong></div>
+    </a>
   );
 }
 
-function BrandGraphic({ folder }) {
+function BrandRoom({ folder, index }) {
   const graphic = BRAND_GRAPHICS[folder.handle];
-  if (!graphic) return null;
-
   return (
-    <a href={`/shop#brand-${folder.handle}`} className="brand-campaign" aria-label={`Shop ${folder.label}`}>
-      {graphic.type === 'video' ? (
-        <video
-          className="brand-campaign__media"
-          src={graphic.src}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          aria-label={graphic.alt}
-        />
-      ) : (
-        <img className="brand-campaign__media" src={graphic.src} alt={graphic.alt} loading="lazy" />
-      )}
-      <span className="brand-campaign__shade" />
-      <span className="brand-campaign__copy">
-        <span className="brand-campaign__eyebrow">{graphic.eyebrow}</span>
-        <strong className="brand-campaign__title">{folder.label}</strong>
-        <span className="brand-campaign__link">Open folder &rarr;</span>
-      </span>
+    <a href={`/shop#brand-${folder.handle}`} className={`store-room store-room--${(index % 4) + 1}`}>
+      {graphic ? (graphic.type === 'video' ? <video src={graphic.src} autoPlay muted loop playsInline preload="metadata" aria-label={graphic.alt}/> : <img src={graphic.src} alt={graphic.alt} loading="lazy"/>) : null}
+      <div className="store-room__veil" />
+      <span className="store-room__index">{String(index + 1).padStart(2,'0')} / BRAND ROOM</span>
+      <div className="store-room__copy"><strong>{folder.label}</strong><em>{folder.products.length} PIECES</em><i>ENTER ROOM ↗</i></div>
     </a>
   );
 }
 
 export default async function HomePage() {
   const brandFolders = await getProductsByBrand();
-  const productCount = brandFolders.reduce((total, folder) => total + folder.products.length, 0);
+  const allProducts = brandFolders.flatMap(folder => folder.products);
+  const featured = allProducts.filter(p => p.images?.length).slice(0, 12);
+  const productCount = allProducts.length;
 
   return (
-    <>
-      {/* HERO */}
-      <section className="hero">
+    <div className="storefront-flagship">
+      <section className="store-hero">
         <LandingVideo />
-        <div className="hero__overlay" />
-        <div className="hero__content">
-          <div className="hero__tag">The Corner Store, Curated</div>
-          <h1 className="hero__title">Bodega<br /><em>Apparel Essentials</em></h1>
-          <p className="hero__sub">Tees, caps, hoodies, pants. Our own shelf, plus STUSH, PULSE, MYXX, MAGA and Kollective.</p>
-          <div className="hero__actions">
-            <a href="/shop" className="btn-primary">Shop Now</a>
-            <a href={`${S}/collections/bodega`} className="btn-secondary">View All</a>
-          </div>
+        <div className="store-hero__veil" />
+        <div className="store-hero__side" aria-hidden="true">ATLANTA / OPEN DAILY / CULTURE DEPARTMENT STORE</div>
+        <div className="store-hero__content">
+          <span className="store-kicker">BODEGA / THE CORNER STORE, REBUILT</span>
+          <h1><span>EVERYTHING</span><span>GOOD IS</span><em>ON THE SHELF.</em></h1>
+          <div className="store-hero__bottom"><p>{productCount} pieces across independent rooms. Fashion, performance, city uniforms and the things worth finding.</p><div><a href="/shop" className="store-btn">ENTER THE STORE</a><a href="#rooms" className="store-link">BROWSE ROOMS ↗</a></div></div>
         </div>
       </section>
 
-      {/* MOVING BANNER */}
-      <div className="announce">
-        <div className="announce__track">
-          {[...Array(8)].map((_, i) => (
-            <span key={i} className="announce__item">STOCKED DAILY &bull; APPAREL &amp; ESSENTIALS &bull;</span>
-          ))}
-        </div>
-      </div>
-
-      {/* PRODUCTS BY BRAND */}
-      <section className="shop" style={{ borderTop: '1px solid var(--tx03)' }}>
-        <div className="shop__header">
-          <h2 className="shop__title">Shop by Brand &mdash; {productCount}</h2>
-          <a href="/shop" className="shop__link">Open all folders &rarr;</a>
-        </div>
-        {brandFolders.map(folder => (
-          <section key={folder.handle} className="home-brand-folder">
-            <BrandGraphic folder={folder} />
-            <div className="shop__header">
-              <h3 className="shop__title">{folder.label} &mdash; {folder.products.length}</h3>
-              <a href={`/shop#brand-${folder.handle}`} className="shop__link">Open folder &rarr;</a>
-            </div>
-            <div className="dgrid">
-              {folder.products.slice(0, 6).map(product => <ProductCard key={product.id} p={product} />)}
-            </div>
-          </section>
-        ))}
-      </section>
-
-      {/* MANIFESTO */}
-      <section className="manifesto">
-        <p className="manifesto__text">
-          Every brand on the shelf gets its own room. One checkout, one cart, one place that keeps it stocked.
-          <strong> That is the whole idea.</strong>
-        </p>
-      </section>
-
-      {/* MARQUEE */}
-      <section className="marquee">
-        <div className="marquee__track">
-          {[...Array(6)].map((_, i) => (
-            <span key={i} className="marquee__item">BODEGA &bull; APPAREL &amp; ESSENTIALS &bull; STOCKED DAILY &bull; THE KOLLECTIVE &bull;</span>
-          ))}
+      <section className="store-departments">
+        <header><span className="store-kicker">DIRECTORY / LEVEL 01</span><h2>SHOP BY<br/>DEPARTMENT.</h2></header>
+        <div className="store-departments__list">
+          {[['NEW IN','The newest pieces across the store'],['STREET','STUSH, BODEGA and city uniforms'],['SPORT','PULSE, MYXX and performance'],['HEADWEAR','Caps, visors and daily rotation'],['ESSENTIALS','The pieces that stay stocked'],['BOOKS + OBJECTS','Culture beyond the closet']].map(([name,note],i)=><a href="/shop" key={name}><span>0{i+1}</span><strong>{name}</strong><em>{note}</em><i>↗</i></a>)}
         </div>
       </section>
 
-      {/* EMAIL CAPTURE */}
-      <section className="movement" id="subscribe">
-        <div className="movement__tag">Stay Ready</div>
-        <h2 className="movement__title">Get the Drop First</h2>
-        <p className="movement__desc">New arrivals, seasonal drops, and restocks before they hit the shelf.</p>
-        <div className="movement__form">
-          <input type="email" className="movement__input" placeholder="Enter your email" />
-          <button className="movement__submit">Join</button>
-        </div>
+      <section className="store-rooms" id="rooms">
+        <div className="store-section-head"><div><span className="store-kicker">DIRECTORY / LEVEL 02</span><h2>BRAND<br/>ROOMS.</h2></div><p>Every brand keeps its own identity. BODEGA is the hallway connecting them—not the reason they look alike.</p></div>
+        <div className="store-rooms__grid">{brandFolders.slice(0,8).map((folder,i)=><BrandRoom key={folder.handle} folder={folder} index={i}/>)}</div>
+        <a href="/shop" className="store-all-link">OPEN THE FULL BRAND DIRECTORY <span>{brandFolders.length} ROOMS</span> ↗</a>
       </section>
-    </>
+
+      <section className="store-drop">
+        <span className="store-kicker">THE FRONT TABLE / CURRENT DROP</span>
+        <div className="store-drop__head"><h2>TWELVE THINGS<br/>WORTH STOPPING FOR.</h2><a href="/shop" className="store-link">SEE ALL {productCount} ↗</a></div>
+        <div className="store-object-grid">{featured.map((p,i)=><ProductObject key={p.id} p={p} index={i}/>)}</div>
+      </section>
+
+      <section className="store-editorial">
+        <div><span className="store-kicker">BODEGA PAPER / ISSUE 001</span><h2>THE STORE<br/>IS THE <em>STORY.</em></h2></div>
+        <p>New drops, people, places, collaborations, city uniforms and whatever is moving culture this week. Commerce should feel like discovery, not inventory management.</p>
+        <a href="/shop" className="store-link">ENTER THE CURRENT ISSUE ↗</a>
+      </section>
+
+      <section className="store-signup" id="subscribe"><span className="store-kicker">THE RECEIPT LIST</span><h2>GET THE DROP<br/>BEFORE THE SHELF.</h2><div><input type="email" placeholder="EMAIL ADDRESS"/><button>JOIN ↗</button></div></section>
+    </div>
   );
 }
