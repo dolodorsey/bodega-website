@@ -1,8 +1,10 @@
 import './globals.css';
 import './extreme-store.css';
 import './spatial-store.css';
+import './experience.css';
 import { Bebas_Neue, Outfit } from 'next/font/google';
 import MobileMenu from '@/components/MobileMenu';
+import ExperienceLayer from '@/components/ExperienceLayer';
 
 const display = Bebas_Neue({ subsets:['latin'], weight:'400', variable:'--font-bodega-display', display:'swap' });
 const body = Outfit({ subsets:['latin'], weight:['300','400','500','600','700'], variable:'--font-bodega-body', display:'swap' });
@@ -19,6 +21,7 @@ const NAV=[{label:'New In',href:'/shop'},{label:'Store Map',href:'/#floor'},{lab
 
 export default function RootLayout({children}){
  return <html lang="en" className={`${display.variable} ${body.variable}`}><body>
+  <ExperienceLayer/>
   <script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(JSON_LD)}}/>
   <nav className="nav"><a href="/" className="nav__logo">Bodega</a><ul className="nav__links">{NAV.map(n=><li key={n.label}><a href={n.href} className="nav__link">{n.label}</a></li>)}</ul><MobileMenu/></nav>
   <main>{children}</main>
