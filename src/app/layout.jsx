@@ -2,12 +2,12 @@ import './globals.css';
 import './extreme-store.css';
 import './spatial-store.css';
 import './experience.css';
-import { Bebas_Neue, Outfit } from 'next/font/google';
+import { Barlow_Condensed, Manrope } from 'next/font/google';
 import MobileMenu from '@/components/MobileMenu';
 import ExperienceLayer from '@/components/ExperienceLayer';
 
-const display = Bebas_Neue({ subsets:['latin'], weight:'400', variable:'--font-bodega-display', display:'swap' });
-const body = Outfit({ subsets:['latin'], weight:['300','400','500','600','700'], variable:'--font-bodega-body', display:'swap' });
+const display = Barlow_Condensed({ subsets:['latin'], weight:['500','600','700'], variable:'--font-bodega-display', display:'swap' });
+const body = Manrope({ subsets:['latin'], weight:['400','500','600','700'], variable:'--font-bodega-body', display:'swap' });
 
 const BRAND_DESCRIPTION = 'BODEGA is a culture department store from Atlanta — independent brand rooms, curated apparel, performance, city uniforms and new drops under one roof.';
 export const metadata = {
