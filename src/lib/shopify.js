@@ -33,11 +33,13 @@ export async function getProducts(limit = 250) {
 
 export const BRAND_COLLECTIONS = [
   { handle: 'bodega', label: 'BODEGA' },
+  { handle: 'dr-dorsey', label: 'DR. DORSEY' },
+  { handle: 'kollective-1', label: 'KOLLECTIVE' },
+  { handle: 'the-fraternity', label: 'THE FRATERNITY' },
   { handle: 'myxx-1', label: 'MYXX' },
   { handle: 'pulse-usa', label: 'PULSE USA' },
   { handle: 'stush-usa', label: 'STUSH USA' },
   { handle: 'hakuna-matata', label: 'HAKUNA MATATA' },
-  { handle: 'kollective-1', label: 'KOLLECTIVE' },
   { handle: 'make-atlanta-great-again', label: 'MAKE ATLANTA GREAT AGAIN' },
 ];
 
