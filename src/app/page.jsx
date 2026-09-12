@@ -4,6 +4,7 @@ import LandingVideo from '@/components/LandingVideo';
 
 export const dynamic = 'force-dynamic';
 
+function canRenderProduct(p){return Boolean(p?.images?.[0]?.src&&p?.variants?.[0]?.id)}
 function imageScore(image,index,p,variant){const text=`${image?.alt||''} ${image?.src||''}`.toLowerCase();const title=`${p?.title||''} ${p?.product_type||''}`.toLowerCase();let score=120-index*4;if(/front|hero|model|lifestyle|look|main|campaign|on-body|on body/.test(text))score+=90;if(/back|rear|reverse|backside|blank|size chart|diagram|spec|packaging/.test(text))score-=180;if(variant?.image_id&&String(image?.id)===String(variant.image_id))score+=120;if(/shirt|tee|t-shirt|hoodie|sweatshirt|top|jacket/.test(title)&&index===0&&p?.images?.length>1&&!image?.alt)score-=18;return score}
 function bestImage(p){const variant=p.variants?.find(item=>item.available!==false)||p.variants?.[0];return [...(p.images||[])].map((image,index)=>({image,score:imageScore(image,index,p,variant)})).sort((a,b)=>b.score-a.score)[0]?.image}
 function curationScore(p){const variant=p.variants?.find(item=>item.available!==false)||p.variants?.[0];const quality=bestImage(p)?100:0;const depth=Math.min(4,p.images?.length||0)*16;const availability=variant?.available===false?0:35;const price=Math.min(80,Number(variant?.price||0)/4);return quality+depth+availability+price}
@@ -23,12 +24,13 @@ function ProductObject({ p, index }) {
 
 function BrandRoom({ folder, index }) {
   const graphic = BRAND_GRAPHICS[folder.handle];
+  const visibleCount = folder.products.filter(canRenderProduct).length;
   return (
-    <a href={`/shop#brand-${folder.handle}`} className={`store-room store-room--${(index % 4) + 1}`}>
+    <a href={`/shop?brand=${encodeURIComponent(folder.handle)}`} className={`store-room store-room--${(index % 4) + 1}`}>
       {graphic ? (graphic.type === 'video' ? <video src={graphic.src} autoPlay muted loop playsInline preload="metadata" aria-label={graphic.alt}/> : <img src={graphic.src} alt={graphic.alt} loading="lazy"/>) : null}
       <div className="store-room__veil" />
       <span className="store-room__index">{String(index + 1).padStart(2,'0')} / BRAND ROOM</span>
-      <div className="store-room__copy"><strong>{folder.label}</strong><em>{folder.products.length} PIECES</em><i>ENTER ROOM ↗</i></div>
+      <div className="store-room__copy"><strong>{folder.label}</strong><em>{visibleCount} PIECES</em><i>ENTER ROOM ↗</i></div>
     </a>
   );
 }
@@ -44,8 +46,8 @@ const FLOOR = [
 
 export default async function HomePage() {
   const brandFolders = await getProductsByBrand();
-  const allProducts = brandFolders.flatMap(folder => folder.products);
-  const featured = allProducts.filter(p => p.images?.length).sort((a,b)=>curationScore(b)-curationScore(a)).slice(0, 12);
+  const allProducts = brandFolders.flatMap(folder => folder.products).filter(canRenderProduct);
+  const featured = allProducts.sort((a,b)=>curationScore(b)-curationScore(a)).slice(0, 12);
   const productCount = allProducts.length;
 
   return (
@@ -57,7 +59,7 @@ export default async function HomePage() {
         <div className="store-hero__content">
           <span className="store-kicker">BODEGA / THE CORNER STORE, REBUILT</span>
           <h1><span>EVERYTHING</span><span>GOOD IS</span><em>ON THE SHELF.</em></h1>
-          <div className="store-hero__bottom"><p>{productCount} pieces across independent rooms. Fashion, performance, city uniforms and the things worth finding.</p><div><a href="#floor" className="store-btn">ENTER THE STORE</a><a href="#rooms" className="store-link">BROWSE ROOMS ↗</a></div></div>
+          <div className="store-hero__bottom"><p>{productCount} visible pieces across independent rooms. Fashion, performance, city uniforms and the things worth finding.</p><div><a href="#floor" className="store-btn">ENTER THE STORE</a><a href="#rooms" className="store-link">BROWSE ROOMS ↗</a></div></div>
         </div>
       </section>
       <section className="store-departments"><header><span className="store-kicker">DIRECTORY / LEVEL 01</span><h2>SHOP BY<br/>DEPARTMENT.</h2></header><div className="store-departments__list">{[['NEW IN','The newest pieces across the store'],['STREET','STUSH, BODEGA and city uniforms'],['SPORT','PULSE, MYXX and performance'],['HEADWEAR','Caps, visors and daily rotation'],['ESSENTIALS','The pieces that stay stocked'],['BOOKS + OBJECTS','Culture beyond the closet']].map(([name,note],i)=><a href="/shop" key={name}><span>0{i+1}</span><strong>{name}</strong><em>{note}</em><i>↗</i></a>)}</div></section>
