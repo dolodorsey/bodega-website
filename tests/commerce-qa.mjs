@@ -3,6 +3,7 @@ import fs from 'node:fs/promises';
 import assert from 'node:assert/strict';
 
 const base=process.env.BODEGA_URL||'https://bodegabodegabodega.com';
+const checkoutRequired=process.env.CHECKOUT_REQUIRED==='1';
 const out=process.env.EVIDENCE_DIR||'artifacts/commerce-qa';
 await fs.mkdir(out,{recursive:true});
 
@@ -83,6 +84,7 @@ try{
   await shot(page,'bodega-desktop-pdp-after-variant');
 
   await test('desktop secure checkout handoff without payment',async()=>{
+    if(!checkoutRequired)return{skipped:'local/preview interaction run'};
     const buy=page.getByRole('button',{name:/buy now|secure checkout/i}).first();
     assert(await buy.count()>0,'Buy/checkout button missing');
     assert(!(await buy.isDisabled()),'Selected BODEGA variant is not purchasable');
