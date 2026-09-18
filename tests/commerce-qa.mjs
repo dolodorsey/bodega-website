@@ -33,7 +33,7 @@ try{
     assert(await card.count()>0,'No multi-color STUSH card is available inside BODEGA for hover QA');
     const active=card.locator('.dc__img--active');
     const before=await active.getAttribute('src');
-    await card.hover();await page.waitForTimeout(2200);
+    await card.hover();await page.waitForTimeout(450);
     const after=await card.locator('.dc__img--active').getAttribute('src');
     assert(before&&after&&before!==after,'Hover did not rotate to alternate product media');
     productPath=await card.locator('.dc__media-link').getAttribute('href');
