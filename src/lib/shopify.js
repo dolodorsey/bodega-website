@@ -1,17 +1,25 @@
 const STORE = process.env.SHOPIFY_STORE_DOMAIN || 'bodgeaworldwide.myshopify.com';
 const ORIGIN = `https://${STORE.replace(/^https?:\/\//, '')}`;
 
-async function shopifyFetch(path) {
+async function shopifyFetch(path, revalidate = 120) {
   try {
     const res = await fetch(`${ORIGIN}${path}`, {
       headers: {
         Accept: 'application/json',
-        'User-Agent': 'BodegaWeb/1.0',
+        'User-Agent': 'BodegaWeb/1.1',
       },
-      cache: 'no-store',
+      next: { revalidate },
     });
 
     if (!res.ok) {
+      // A removed Shopify handle is a normal shelf miss, not an app crash.
+      if (res.status === 404) return null;
+      // Rate-limit responses are kept out of the error channel while the
+      // Next data cache prevents every shopper from re-hitting Shopify.
+      if (res.status === 429) {
+        console.warn(`Shopify rate limited: ${path}`);
+        return null;
+      }
       console.error(`Shopify ${res.status}: ${path}`);
       return null;
     }
@@ -24,11 +32,14 @@ async function shopifyFetch(path) {
 }
 
 export async function getProducts(limit = 250) {
-  const handles = BRAND_COLLECTIONS.map(collection => collection.handle);
-  const collections = await Promise.all(
-    handles.map(handle => shopifyFetch(`/collections/${handle}/products.json?limit=${limit}`))
-  );
-  return collections.flatMap(data => data?.products || []);
+  const products = [];
+  // Keep Shopify collection reads serialized. The public JSON endpoint
+  // rate-limits bursts aggressively; the Next data cache handles repeat traffic.
+  for (const collection of BRAND_COLLECTIONS) {
+    const data = await shopifyFetch(`/collections/${collection.handle}/products.json?limit=${limit}`, 120);
+    products.push(...(data?.products || []));
+  }
+  return products;
 }
 
 export const BRAND_COLLECTIONS = [
@@ -44,18 +55,17 @@ export const BRAND_COLLECTIONS = [
 ];
 
 export async function getProductsByBrand(limit = 250) {
-  const collections = await Promise.all(
-    BRAND_COLLECTIONS.map(async collection => {
-      const data = await shopifyFetch(`/collections/${collection.handle}/products.json?limit=${limit}`);
-      return { ...collection, products: data?.products || [] };
-    })
-  );
+  const collections = [];
+  for (const collection of BRAND_COLLECTIONS) {
+    const data = await shopifyFetch(`/collections/${collection.handle}/products.json?limit=${limit}`, 120);
+    collections.push({ ...collection, products: data?.products || [] });
+  }
   return collections.filter(collection => collection.products.length > 0);
 }
 
 export async function getProductByHandle(handle) {
   if (!handle) return null;
-  const data = await shopifyFetch(`/products/${encodeURIComponent(handle)}.json`);
+  const data = await shopifyFetch(`/products/${encodeURIComponent(handle)}.json`, 60);
   return data?.product || null;
 }
 
