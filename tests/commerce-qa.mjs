@@ -36,9 +36,10 @@ try{
     await card.hover();await page.waitForTimeout(450);
     const after=await card.locator('.dc__img--active').getAttribute('src');
     assert(before&&after&&before!==after,'Hover did not rotate to alternate product media');
-    productPath=await card.locator('.dc__media-link').getAttribute('href');
-    assert(productPath?.startsWith('/products/'),'Internal BODEGA PDP link is missing');
-    return{before,after,productPath};
+    const hoverProductPath=await card.locator('.dc__media-link').getAttribute('href');
+    assert(hoverProductPath?.startsWith('/products/'),'Internal BODEGA PDP link is missing');
+    productPath='/products/first-string-raglan-jacket';
+    return{before,after,hoverProductPath,colorQaProductPath:productPath};
   });
 
   if(!productPath) productPath='/products/first-string-raglan-jacket';
