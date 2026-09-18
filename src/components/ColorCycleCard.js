@@ -96,19 +96,22 @@ export default function ColorCycleCard({ product }) {
           .map(image => ({ src: image.src, label: '', variantId: firstVariantId }))
       : [{ src: firstImage, label: '', variantId: firstVariantId }];
 
+  const hasAlternateMedia = cycleImages.length > 1;
   const [activeIndex, setActiveIndex] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
   const intervalRef = useRef(null);
 
   useEffect(() => {
-    if (!hasMultipleColors) return undefined;
-    if (isHovering && cycleImages.length > 1) {
+    if (!hasAlternateMedia) return undefined;
+    if (isHovering) {
+      // Reveal the next real Shopify image immediately, then continue cycling.
+      setActiveIndex(previous => (previous + 1) % cycleImages.length);
       intervalRef.current = setInterval(() => {
         setActiveIndex(previous => (previous + 1) % cycleImages.length);
       }, 1800);
     }
     return () => clearInterval(intervalRef.current);
-  }, [isHovering, cycleImages.length, hasMultipleColors]);
+  }, [isHovering, cycleImages.length, hasAlternateMedia]);
 
   const handleDotClick = useCallback((event, index) => {
     event.stopPropagation();
@@ -123,10 +126,12 @@ export default function ColorCycleCard({ product }) {
 
   return (
     <article
-      className={`dc${hasMultipleColors ? ' dc--multi' : ''}`}
+      className={`dc${hasAlternateMedia ? ' dc--multi' : ''}`}
+      data-has-alternate={hasAlternateMedia ? 'true' : 'false'}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => {
         setIsHovering(false);
+        setActiveIndex(0);
         clearInterval(intervalRef.current);
       }}
     >
