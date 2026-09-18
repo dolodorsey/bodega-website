@@ -12,6 +12,8 @@ on:
       - 'src/app/products/**'
       - 'src/app/shop/**'
       - 'src/app/api/checkout/**'
+      - 'src/app/api/build-info/**'
+      - 'src/app/globals.css'
       - 'tests/commerce-qa.mjs'
       - '.github/workflows/commerce-quality-gate.yml'
 
@@ -21,27 +23,90 @@ permissions:
 jobs:
   commerce:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
-      - name: Install browser test tools
+
+      - name: Install dependencies and browser
         run: |
           npm install --no-fund --no-audit
           npm install --no-save --no-fund --no-audit playwright
           npx playwright install --with-deps chromium
-      - name: Run BODEGA production commerce interaction QA
+
+      - name: Build BODEGA
+        run: npm run build
+
+      - name: Start committed BODEGA build
+        shell: bash
+        run: |
+          npm run start > /tmp/bodega-next.log 2>&1 &
+          echo $! > /tmp/bodega-next.pid
+          ready=false
+          for attempt in {1..30}; do
+            if curl -fsS http://127.0.0.1:3000/shop >/dev/null; then
+              ready=true
+              break
+            fi
+            sleep 1
+          done
+          if [ "$ready" != "true" ]; then
+            cat /tmp/bodega-next.log
+            exit 1
+          fi
+
+      - name: Run committed-code commerce interaction QA
+        env:
+          BODEGA_URL: http://127.0.0.1:3000
+          CHECKOUT_REQUIRED: '0'
+          EVIDENCE_DIR: artifacts/commerce-qa-local
+        run: node tests/commerce-qa.mjs
+
+      - name: Wait for exact production commit
+        if: github.event_name == 'push'
+        shell: bash
+        env:
+          EXPECTED_SHA: ${{ github.sha }}
+          PRODUCTION_URL: https://bodegabodegabodega.com
+        run: |
+          matched=false
+          for attempt in {1..60}; do
+            if curl -fsS "$PRODUCTION_URL/api/build-info" -o /tmp/bodega-build.json; then
+              live_sha="$(node -e "const fs=require('fs');try{process.stdout.write(JSON.parse(fs.readFileSync('/tmp/bodega-build.json','utf8')).commitSha||'')}catch{}")"
+              echo "Attempt $attempt: live=$live_sha expected=$EXPECTED_SHA"
+              if [ "$live_sha" = "$EXPECTED_SHA" ]; then
+                matched=true
+                break
+              fi
+            fi
+            sleep 10
+          done
+          test "$matched" = "true"
+
+      - name: Run live production checkout + interaction certification
+        if: github.event_name == 'push'
         env:
           BODEGA_URL: https://bodegabodegabodega.com
-          EVIDENCE_DIR: artifacts/commerce-qa
+          CHECKOUT_REQUIRED: '1'
+          EVIDENCE_DIR: artifacts/commerce-qa-production
         run: node tests/commerce-qa.mjs
+
       - name: Preserve BODEGA commerce evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: bodega-commerce-qa-${{ github.sha }}
-          path: artifacts/commerce-qa
+          path: |
+            artifacts/commerce-qa-local
+            artifacts/commerce-qa-production
           if-no-files-found: error
           retention-days: 30
+
+      - name: Stop local BODEGA server
+        if: always()
+        shell: bash
+        run: |
+          test -f /tmp/bodega-next.pid && kill "$(cat /tmp/bodega-next.pid)" || true
