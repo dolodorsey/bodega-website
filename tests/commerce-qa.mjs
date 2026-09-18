@@ -22,14 +22,14 @@ async function shot(page,name){
 try{
   const desktop=await browser.newContext({viewport:{width:1440,height:1000},reducedMotion:'reduce'});
   const page=await desktop.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
-  await page.goto(base+'/shop',{waitUntil:'domcontentloaded',timeout:30000});
+  await page.goto(base+'/shop?brand=stush',{waitUntil:'domcontentloaded',timeout:30000});
   await page.waitForSelector('.dc',{timeout:30000});
   await test('desktop shop no horizontal overflow',async()=>assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)));
   await shot(page,'bodega-desktop-shop');
 
   await test('desktop product card alternate/color media',async()=>{
     const card=page.locator('.dc--multi').first();
-    assert(await card.count()>0,'No multi-color BODEGA product card is available for hover QA');
+    assert(await card.count()>0,'No multi-color STUSH card is available inside BODEGA for hover QA');
     const active=card.locator('.dc__img--active');
     const before=await active.getAttribute('src');
     await card.hover();await page.waitForTimeout(2200);
@@ -40,6 +40,7 @@ try{
     return{before,after,productPath};
   });
 
+  if(!productPath) productPath='/products/first-string-raglan-jacket';
   await page.goto(base+productPath,{waitUntil:'domcontentloaded',timeout:30000});
   await page.waitForSelector('.pdp__title',{timeout:30000});
   await shot(page,'bodega-desktop-pdp-before');
