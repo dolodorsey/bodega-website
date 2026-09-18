@@ -160,7 +160,7 @@ a{color:inherit;text-decoration:none}img{max-width:100%;height:auto;display:bloc
 .pdp__option-label{font-size:9px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--tx50)}
 .pdp__option-label em{font-style:normal;color:var(--tx);margin-left:8px;letter-spacing:.14em}
 .pdp__option-values{display:flex;flex-wrap:wrap;gap:8px}
-.pdp__value{padding:10px 18px;background:transparent;border:1px solid var(--tx10);color:var(--tx50);font-family:var(--sn);font-size:10px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;transition:all .3s var(--lux)}
+.pdp__value{min-height:44px;padding:10px 18px;background:transparent;border:1px solid var(--tx10);color:var(--tx50);font-family:var(--sn);font-size:10px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;transition:all .3s var(--lux)}
 .pdp__value:hover{border-color:var(--ac);color:var(--tx)}
 .pdp__value--active{background:var(--ac);border-color:var(--ac);color:var(--bg)}
 .pdp__value--out{opacity:.35;text-decoration:line-through}
