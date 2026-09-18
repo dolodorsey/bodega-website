@@ -1,0 +1,45 @@
+name: BODEGA Commerce Quality Gate
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'src/components/ProductInteractive.jsx'
+      - 'src/components/ColorCycleCard.js'
+      - 'src/app/products/**'
+      - 'src/app/shop/**'
+      - 'src/app/api/checkout/**'
+      - 'tests/commerce-qa.mjs'
+      - '.github/workflows/commerce-quality-gate.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  commerce:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Install browser test tools
+        run: |
+          npm install --no-fund --no-audit
+          npm install --no-save --no-fund --no-audit playwright
+          npx playwright install --with-deps chromium
+      - name: Run BODEGA production commerce interaction QA
+        env:
+          BODEGA_URL: https://bodegabodegabodega.com
+          EVIDENCE_DIR: artifacts/commerce-qa
+        run: node tests/commerce-qa.mjs
+      - name: Preserve BODEGA commerce evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bodega-commerce-qa-${{ github.sha }}
+          path: artifacts/commerce-qa
+          if-no-files-found: error
+          retention-days: 30
