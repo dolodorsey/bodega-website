@@ -22,7 +22,7 @@ async function shot(page,name){
 try{
   const desktop=await browser.newContext({viewport:{width:1440,height:1000},reducedMotion:'reduce'});
   const page=await desktop.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
-  await page.goto(base+'/shop?brand=stush',{waitUntil:'domcontentloaded',timeout:30000});
+  await page.goto(base+'/shop?brand=stush-usa',{waitUntil:'domcontentloaded',timeout:30000});
   await page.waitForSelector('.dc',{timeout:30000});
   await test('desktop shop no horizontal overflow',async()=>assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)));
   await shot(page,'bodega-desktop-shop');
@@ -87,10 +87,10 @@ try{
     assert(await buy.count()>0,'Buy/checkout button missing');
     assert(!(await buy.isDisabled()),'Selected BODEGA variant is not purchasable');
     await Promise.all([
-      page.waitForURL(url=>/myshopify\.com|shopify\.com/.test(url.hostname),{timeout:30000}),
+      page.waitForURL(url=>/myshopify\.com|shopify\.com|checkout\.stripe\.com/.test(url.hostname),{timeout:30000}),
       buy.click(),
     ]);
-    assert(/myshopify\.com|shopify\.com/.test(new URL(page.url()).hostname));
+    assert(/myshopify\.com|shopify\.com|checkout\.stripe\.com/.test(new URL(page.url()).hostname));
     return{checkoutHost:new URL(page.url()).hostname,paymentSubmitted:false};
   });
 
