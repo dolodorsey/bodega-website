@@ -24,6 +24,11 @@ export const BRAND_GRAPHICS = {
     eyebrow: 'HAKUNA MATATA / Real Book Campaign',
     alt: 'Hakuna Matata library campaign',
   },
+  'nightmare-on-channelside': {
+    src: 'https://cdn.shopify.com/s/files/1/0759/7506/5791/files/bodega-halloween-concert-card.webp?v=1790288611',
+    eyebrow: 'NIGHTMARE ON CHANNELSIDE / OFFICIAL MERCH',
+    alt: 'Nightmare on Channelside animated concert merchandise cover',
+  },
   'kollective-1': {
     src: 'https://cdn.shopify.com/s/files/1/0759/7506/5791/files/bodega-kollective-card.webp?v=1790286532',
     eyebrow: 'KOLLECTIVE / BODEGA Brand World',
