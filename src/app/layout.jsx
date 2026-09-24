@@ -4,6 +4,7 @@ import './spatial-store.css';
 import './brand-hub.css';
 import { Barlow_Condensed, Manrope } from 'next/font/google';
 import MobileMenu from '@/components/MobileMenu';
+import PWARegister from '@/components/PWARegister';
 
 const display = Barlow_Condensed({
   subsets:['latin'],
@@ -26,6 +27,7 @@ export const metadata = {
   title: 'BODEGA — The Home of Our Brands',
   description: BRAND_DESCRIPTION,
   applicationName:'BODEGA',
+  manifest:'/manifest.webmanifest',
   appleWebApp:{capable:true,title:'BODEGA',statusBarStyle:'black-translucent'},
   icons:{
     icon:[
@@ -85,6 +87,7 @@ export default function RootLayout({children}){
   return (
     <html lang="en" className={display.variable + ' ' + body.variable}>
       <body>
+        <PWARegister/>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{__html:JSON.stringify(JSON_LD)}}

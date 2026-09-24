@@ -1,6 +1,9 @@
 export const BODEGA_LANDING_VIDEO =
   'https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics/bodega/BODEGA_VID.mp4';
 
+export const BODEGA_LANDING_POSTER =
+  'https://cdn.shopify.com/s/files/1/0759/7506/5791/files/bodega-mobile-landing-poster.jpg?v=1790291476';
+
 export const BODEGA_BRANDS = [
   {
     key: 'stush',
@@ -22,7 +25,6 @@ export const BODEGA_BRANDS = [
     href: 'https://fenyx-gules.vercel.app',
     siteType: 'vercel_full_site',
     cover: 'https://cdn.shopify.com/s/files/1/0759/7506/5791/files/bodega-fenyx-card.webp?v=1790286517',
-    priority: true,
   },
   {
     key: 'pulse',
@@ -33,7 +35,6 @@ export const BODEGA_BRANDS = [
     href: 'https://yourpulsehq.com',
     siteType: 'custom_domain',
     cover: 'https://cdn.shopify.com/s/files/1/0759/7506/5791/files/bodega-pulse-card.webp?v=1790286522',
-    priority: true,
   },
   {
     key: 'maga',
