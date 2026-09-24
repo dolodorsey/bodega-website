@@ -31,7 +31,11 @@ function ProductCard({ product }) {
 
 export default async function KollectiveMerchPage() {
   const products = (await getCollectionProducts('kollective-1', 100))
-    .filter((product) => product?.images?.[0]?.src && product?.variants?.[0]?.id);
+    .filter((product) => {
+      const tags = Array.isArray(product?.tags) ? product.tags : String(product?.tags || '').split(',');
+      const isKollective = tags.some((tag) => String(tag).trim().toLowerCase() === 'brand:kollective');
+      return isKollective && product?.images?.[0]?.src && product?.variants?.[0]?.id;
+    });
 
   return (
     <div className={styles.site}>
@@ -68,9 +72,7 @@ export default async function KollectiveMerchPage() {
             <span>OFFICIAL COLLECTION</span>
             <h2>THE CURRENT DROP.</h2>
           </div>
-          <a href="https://bodgeaworldwide.myshopify.com/collections/kollective-1">
-            OPEN SHOPIFY STORE →
-          </a>
+          <span className={styles.live}>LIVE SHOPIFY INVENTORY / KOLLECTIVE ONLY</span>
         </header>
 
         {products.length ? (
