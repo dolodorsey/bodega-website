@@ -34,7 +34,7 @@ export default async function KollectiveMerchPage() {
     .filter((product) => {
       const tags = Array.isArray(product?.tags) ? product.tags : String(product?.tags || '').split(',');
       const isKollective = tags.some((tag) => String(tag).trim().toLowerCase() === 'brand:kollective');
-      return isKollective && product?.images?.[0]?.src && product?.variants?.[0]?.id;
+      const isDuplicateHat = product?.handle === 'unisex-trucker-hat-with-black-half-mesh';\n      return isKollective && !isDuplicateHat && product?.images?.[0]?.src && product?.variants?.[0]?.id;
     });
 
   return (
