@@ -66,6 +66,15 @@ export async function getProductsByBrand(limit = 250) {
   return collections.filter((collection) => collection.products.length > 0);
 }
 
+export async function getCollectionProducts(handle, limit = 250) {
+  if (!handle) return [];
+  const data = await shopifyFetch(
+    '/collections/' + encodeURIComponent(handle) + '/products.json?limit=' + limit,
+    120
+  );
+  return data?.products || [];
+}
+
 export async function getProductByHandle(handle) {
   if (!handle) return null;
   const data = await shopifyFetch('/products/' + encodeURIComponent(handle) + '.json', 60);

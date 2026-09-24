@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
 
 export default function BrandRoute() {
-  redirect('/shop?brand=fenyx');
+  redirect('https://fenyx-gules.vercel.app');
 }
