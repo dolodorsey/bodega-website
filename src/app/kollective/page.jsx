@@ -1,1 +1,5 @@
-import { redirect } from 'next/navigation';\n\nexport default function BrandRoute() {\n  redirect('/shop?brand=kollective-1');\n}\n
+import { redirect } from 'next/navigation';
+
+export default function BrandRoute() {
+  redirect('/shop?brand=kollective-1');
+}
