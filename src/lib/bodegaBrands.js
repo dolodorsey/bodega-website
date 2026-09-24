@@ -1,5 +1,5 @@
-export const BODEGA_LANDING_ANIMATION =
-  'https://cdn.shopify.com/s/files/1/0759/7506/5791/files/bodega-landing-animation.webp?v=1790288617';
+export const BODEGA_LANDING_VIDEO =
+  'https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics/bodega/BODEGA_VID.mp4';
 
 export const BODEGA_BRANDS = [
   {
@@ -18,9 +18,9 @@ export const BODEGA_BRANDS = [
     number: '02',
     name: 'FENYX',
     tagline: 'Built different. Always rising.',
-    cta: 'BODEGABODEGABODEGA.COM/FENYX',
-    href: '/fenyx',
-    siteType: 'bodega_alias_to_vercel',
+    cta: 'FENYX-GULES.VERCEL.APP',
+    href: 'https://fenyx-gules.vercel.app',
+    siteType: 'vercel_full_site',
     cover: 'https://cdn.shopify.com/s/files/1/0759/7506/5791/files/bodega-fenyx-card.webp?v=1790286517',
     priority: true,
   },
