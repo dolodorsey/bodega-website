@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
 
 export default function BrandRoute() {
-  redirect('/shop?brand=nightmare-on-channelside');
+  redirect('https://iconic-atl.com/tampa/nightmare-on-channelside/merch/shop');
 }
