@@ -1,0 +1,1 @@
+import { redirect } from 'next/navigation';\n\nexport default function BrandRoute() {\n  redirect('/shop?brand=make-atlanta-great-again');\n}\n
