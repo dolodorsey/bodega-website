@@ -1,4 +1,8 @@
-import { BODEGA_BRANDS, BODEGA_LANDING_VIDEO } from '@/lib/bodegaBrands';
+import {
+  BODEGA_BRANDS,
+  BODEGA_LANDING_VIDEO,
+  BODEGA_LANDING_POSTER,
+} from '@/lib/bodegaBrands';
 
 function BrandCard({ brand }) {
   const external = /^https?:\/\//.test(brand.href);
@@ -16,6 +20,7 @@ function BrandCard({ brand }) {
         alt=""
         aria-hidden="true"
         loading={brand.priority ? 'eager' : 'lazy'}
+        decoding="async"
       />
       <span className="hub-card__veil" aria-hidden="true" />
       <span className="hub-card__number">{brand.number}</span>
@@ -33,14 +38,22 @@ export default function HomePage() {
     <div className="brand-hub">
       <section className="hub-hero" id="about">
         <video
-          className="hub-hero__image"
+          className="hub-hero__video"
           src={BODEGA_LANDING_VIDEO}
+          poster={BODEGA_LANDING_POSTER}
           autoPlay
           muted
           loop
           playsInline
           preload="metadata"
           aria-hidden="true"
+        />
+        <img
+          className="hub-hero__poster"
+          src={BODEGA_LANDING_POSTER}
+          alt="BODEGA storefront"
+          fetchPriority="high"
+          decoding="async"
         />
         <div className="hub-hero__shade" aria-hidden="true" />
 
