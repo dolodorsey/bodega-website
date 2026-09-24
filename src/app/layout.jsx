@@ -1,11 +1,9 @@
 import './globals.css';
 import './extreme-store.css';
 import './spatial-store.css';
-import './experience.css';
 import './brand-hub.css';
 import { Barlow_Condensed, Manrope } from 'next/font/google';
 import MobileMenu from '@/components/MobileMenu';
-import ExperienceLayer from '@/components/ExperienceLayer';
 
 const display = Barlow_Condensed({
   subsets:['latin'],
@@ -87,7 +85,6 @@ export default function RootLayout({children}){
   return (
     <html lang="en" className={display.variable + ' ' + body.variable}>
       <body>
-        <ExperienceLayer/>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{__html:JSON.stringify(JSON_LD)}}
