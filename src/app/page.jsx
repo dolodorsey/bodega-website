@@ -46,7 +46,7 @@ export default async function HomePage() {
     collectionImage(folders, 'kollective-1') ||
     '/campaigns/kollective-real-product.png';
 
-  const pulseUrl = process.env.NEXT_PUBLIC_PULSE_SITE_URL || 'https://pulse-website.vercel.app';
+  const pulseUrl = process.env.NEXT_PUBLIC_PULSE_SITE_URL || 'https://yourpulsehq.com';
   const stushUrl = process.env.NEXT_PUBLIC_STUSH_SITE_URL || 'https://stushusa.com';
 
   const brands = [
