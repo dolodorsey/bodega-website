@@ -1,4 +1,4 @@
-import { BODEGA_BRANDS, BODEGA_LANDING_ANIMATION } from '@/lib/bodegaBrands';
+import { BODEGA_BRANDS, BODEGA_LANDING_VIDEO } from '@/lib/bodegaBrands';
 
 function BrandCard({ brand }) {
   const external = /^https?:\/\//.test(brand.href);
@@ -32,11 +32,15 @@ export default function HomePage() {
   return (
     <div className="brand-hub">
       <section className="hub-hero" id="about">
-        <img
+        <video
           className="hub-hero__image"
-          src={BODEGA_LANDING_ANIMATION}
-          alt="BODEGA storefront animation"
-          fetchPriority="high"
+          src={BODEGA_LANDING_VIDEO}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          aria-hidden="true"
         />
         <div className="hub-hero__shade" aria-hidden="true" />
 
