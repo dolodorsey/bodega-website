@@ -1,20 +1,13 @@
-import { getProductsByBrand } from '@/lib/shopify';
-
-export const dynamic = 'force-dynamic';
+const LANDING_ANIMATION = 'https://cdn.shopify.com/s/files/1/0759/7506/5791/files/bodega-landing-animation.webp?v=1790288617';
 
 const ANIMATED_COVERS = {
   stush: 'https://cdn.shopify.com/s/files/1/0759/7506/5791/files/bodega-stush-card.webp?v=1790286478',
   fenyx: 'https://cdn.shopify.com/s/files/1/0759/7506/5791/files/bodega-fenyx-card.webp?v=1790286517',
   pulse: 'https://cdn.shopify.com/s/files/1/0759/7506/5791/files/bodega-pulse-card.webp?v=1790286522',
   maga: 'https://cdn.shopify.com/s/files/1/0759/7506/5791/files/bodega-maga-card.webp?v=1790286526',
+  halloween: 'https://cdn.shopify.com/s/files/1/0759/7506/5791/files/bodega-halloween-concert-card.webp?v=1790288611',
   kollective: 'https://cdn.shopify.com/s/files/1/0759/7506/5791/files/bodega-kollective-card.webp?v=1790286532',
 };
-
-function collectionImage(folders, handle) {
-  const folder = folders.find((item) => item.handle === handle);
-  const product = folder?.products?.find((item) => item?.images?.[0]?.src);
-  return product?.images?.[0]?.src || null;
-}
 
 function BrandCard({ brand }) {
   const external = /^https?:\/\//.test(brand.href);
@@ -23,10 +16,15 @@ function BrandCard({ brand }) {
     <a
       className={'hub-card hub-card--' + brand.key}
       href={brand.href}
-      aria-label={'Visit ' + brand.name}
+      aria-label={'Visit ' + brand.name + ' full website'}
       {...(external ? { rel: 'noopener' } : {})}
     >
-      <img src={brand.cover} alt="" aria-hidden="true" loading={brand.priority ? 'eager' : 'lazy'} />
+      <img
+        src={brand.cover}
+        alt=""
+        aria-hidden="true"
+        loading={brand.priority ? 'eager' : 'lazy'}
+      />
       <span className="hub-card__veil" aria-hidden="true" />
       <span className="hub-card__number">{brand.number}</span>
       <div className="hub-card__copy">
@@ -38,25 +36,15 @@ function BrandCard({ brand }) {
   );
 }
 
-export default async function HomePage() {
-  const folders = await getProductsByBrand();
-
-  const halloweenCover =
-    collectionImage(folders, 'nightmare-on-channelside') ||
-    collectionImage(folders, 'kollective-1') ||
-    '/campaigns/kollective-real-product.png';
-
-  const pulseUrl = process.env.NEXT_PUBLIC_PULSE_SITE_URL || 'https://yourpulsehq.com';
-  const stushUrl = process.env.NEXT_PUBLIC_STUSH_SITE_URL || 'https://stushusa.com';
-
+export default function HomePage() {
   const brands = [
     {
       key: 'stush',
       number: '01',
       name: 'STUSH',
       tagline: 'Everyday essentials. A higher standard.',
-      cta: 'VISIT STUSH SITE',
-      href: stushUrl,
+      cta: 'STUSHUSA.COM',
+      href: 'https://stushusa.com',
       cover: ANIMATED_COVERS.stush,
       priority: true,
     },
@@ -65,7 +53,7 @@ export default async function HomePage() {
       number: '02',
       name: 'FENYX',
       tagline: 'Built different. Always rising.',
-      cta: 'BODEGABODEGABODEGA.COM/FENYX',
+      cta: 'VISIT FENYX SITE',
       href: '/fenyx',
       cover: ANIMATED_COVERS.fenyx,
       priority: true,
@@ -75,8 +63,8 @@ export default async function HomePage() {
       number: '03',
       name: 'PULSE',
       tagline: 'Performance. Clubhouse. Culture.',
-      cta: 'VISIT PULSE SITE',
-      href: pulseUrl,
+      cta: 'YOURPULSEHQ.COM',
+      href: 'https://yourpulsehq.com',
       cover: ANIMATED_COVERS.pulse,
       priority: true,
     },
@@ -85,25 +73,25 @@ export default async function HomePage() {
       number: '04',
       name: 'MAKE ATL GREAT AGAIN',
       tagline: 'People. Culture. Progress.',
-      cta: 'BODEGABODEGABODEGA.COM/MAKE-ATL-GREAT-AGAIN',
+      cta: 'THAOLDATLANTA.COM',
       href: '/make-atl-great-again',
       cover: ANIMATED_COVERS.maga,
     },
     {
       key: 'halloween',
       number: '05',
-      name: 'HALLOWEEN MERCH',
-      tagline: 'Limited event merch. Built for October.',
-      cta: 'BODEGABODEGABODEGA.COM/HALLOWEEN',
+      name: 'HALLOWEEN CONCERT MERCH',
+      tagline: 'Nightmare on Channelside. Tampa.',
+      cta: 'SHOP THE FULL MERCH SITE',
       href: '/halloween',
-      cover: halloweenCover,
+      cover: ANIMATED_COVERS.halloween,
     },
     {
       key: 'kollective',
       number: '06',
       name: 'KOLLECTIVE MERCH',
       tagline: 'The uniform for the people building it.',
-      cta: 'BODEGABODEGABODEGA.COM/KOLLECTIVE',
+      cta: 'ENTER KOLLECTIVE',
       href: '/kollective',
       cover: ANIMATED_COVERS.kollective,
     },
@@ -114,22 +102,21 @@ export default async function HomePage() {
       <section className="hub-hero" id="about">
         <img
           className="hub-hero__image"
-          src="/campaigns/kollective-real-product.png"
-          alt=""
-          aria-hidden="true"
+          src={LANDING_ANIMATION}
+          alt="BODEGA storefront animation"
+          fetchPriority="high"
         />
         <div className="hub-hero__shade" aria-hidden="true" />
 
         <div className="hub-hero__copy">
-          <span className="hub-eyebrow">ONE HUB. MANY WORLDS.</span>
-          <h1>BODEGA</h1>
-          <h2>THE HOME FOR ALL OF OUR CLOTHING AND MERCH BRANDS.</h2>
+          <span className="hub-eyebrow">BODEGA / ONE HUB. MANY WORLDS.</span>
+          <h1>ALL OUR BRANDS.<br/>ONE FRONT DOOR.</h1>
           <p>
-            Different styles. A shared vision. BODEGA is the front door to the full wardrobe—
-            every brand keeps its own identity, store and world.
+            BODEGA is the face of the clothing and merch universe. Every card opens the brand's
+            full website — its own identity, products and world.
           </p>
           <a href="#brands" className="hub-hero__cta">
-            EXPLORE THE BRANDS <span>→</span>
+            ENTER THE BRAND UNIVERSE <span>↓</span>
           </a>
         </div>
 
@@ -137,7 +124,7 @@ export default async function HomePage() {
           <span>FASHION</span>
           <span>SPORT</span>
           <span>CULTURE</span>
-          <span>COMMUNITY</span>
+          <span>MERCH</span>
           <span>+ MORE</span>
         </div>
       </section>
@@ -145,12 +132,12 @@ export default async function HomePage() {
       <section className="hub-brands" id="brands" aria-labelledby="brands-title">
         <div className="hub-section-head">
           <div>
-            <span className="hub-eyebrow">SHOP THE UNIVERSE OF BRANDS</span>
+            <span className="hub-eyebrow">THE BODEGA DIRECTORY</span>
             <h2 id="brands-title">CHOOSE YOUR WORLD.</h2>
           </div>
           <p>
-            One destination when you want to see everything. One click when you already know where
-            you belong.
+            This page is the directory. The brands stay separate. Choose one and enter its complete
+            site.
           </p>
         </div>
 
@@ -164,11 +151,11 @@ export default async function HomePage() {
       <section className="hub-coming">
         <div>
           <span className="hub-eyebrow">THE NEXT CHAPTER IS BIGGER.</span>
-          <h2>More brands coming soon: BevCo + more merch.</h2>
+          <h2>BevCo + more merch worlds are next.</h2>
         </div>
         <p>
-          BODEGA will keep expanding as new apparel, event merchandise, beverage merchandise and
-          future Kollective brands become ready for the shelf.
+          New brands can be added as cards without turning BODEGA into one combined store. Each new
+          card will route to that entity's own website or dedicated BODEGA-hosted site.
         </p>
         <a href="#brands">ALL BRANDS <span>→</span></a>
       </section>
