@@ -13,7 +13,7 @@ body{background:var(--hub-black)}
   top:0!important;
   height:64px!important;
   padding:0 clamp(20px,3.5vw,56px)!important;
-  background:rgba(7,8,8,.78)!important;
+  background:rgba(7,8,8,.68)!important;
   border-bottom:1px solid rgba(255,255,255,.08);
   backdrop-filter:blur(16px);
 }
@@ -45,7 +45,7 @@ main{min-height:100vh}
   font-weight:700;
   letter-spacing:.34em;
   text-transform:uppercase;
-  color:rgba(255,255,255,.74);
+  color:rgba(255,255,255,.76);
 }
 
 .hub-hero{
@@ -53,9 +53,8 @@ main{min-height:100vh}
   min-height:calc(100svh - 64px);
   overflow:hidden;
   display:grid;
-  grid-template-columns:minmax(0,1.2fr) minmax(180px,.35fr);
   align-items:end;
-  padding:clamp(34px,5vw,76px) clamp(20px,4vw,64px);
+  padding:clamp(24px,4vw,58px) clamp(20px,4vw,64px);
   border-bottom:1px solid rgba(255,255,255,.1);
 }
 .hub-hero__image{
@@ -65,81 +64,73 @@ main{min-height:100vh}
   height:100%;
   object-fit:cover;
   object-position:center;
-  filter:contrast(1.04) brightness(.82);
+  filter:contrast(1.04) brightness(.94);
   transform:scale(1.002);
 }
 .hub-hero__shade{
   position:absolute;
   inset:0;
   background:
-    linear-gradient(90deg,rgba(5,6,6,.74) 0%,rgba(5,6,6,.24) 47%,rgba(5,6,6,.2) 73%,rgba(5,6,6,.62) 100%),
-    linear-gradient(0deg,rgba(5,6,6,.94) 0%,rgba(5,6,6,.48) 28%,rgba(5,6,6,.04) 65%);
+    linear-gradient(0deg,rgba(5,6,6,.7) 0%,rgba(5,6,6,.2) 28%,rgba(5,6,6,0) 58%),
+    linear-gradient(90deg,rgba(5,6,6,.16),transparent 46%,rgba(5,6,6,.2));
 }
-.hub-hero__copy{
+.hub-hero__minimal{
   position:relative;
   z-index:2;
-  max-width:780px;
-  padding:24px 0 2px;
-}
-.hub-hero h1{
-  margin:12px 0 0;
-  font-family:var(--sn);
-  font-size:clamp(42px,6.8vw,108px);
-  font-weight:800;
-  line-height:.9;
-  letter-spacing:-.055em;
-  color:#fff;
-}
-.hub-hero p{
-  max-width:610px;
-  margin-top:16px;
-  font-size:clamp(12px,1.05vw,15px);
-  line-height:1.7;
-  color:var(--hub-muted);
+  justify-self:start;
+  align-self:end;
+  display:flex;
+  align-items:center;
+  gap:26px;
+  padding:15px 17px;
+  border:1px solid rgba(255,255,255,.16);
+  background:rgba(5,6,6,.48);
+  backdrop-filter:blur(12px);
 }
 .hub-hero__cta{
   display:inline-flex;
   align-items:center;
-  gap:18px;
-  margin-top:24px;
-  padding:12px 0;
-  border-bottom:1px solid rgba(255,255,255,.7);
+  gap:14px;
+  padding-left:24px;
+  border-left:1px solid rgba(255,255,255,.25);
   font-size:9px;
   font-weight:800;
-  letter-spacing:.2em;
+  letter-spacing:.18em;
   text-transform:uppercase;
+  white-space:nowrap;
 }
-.hub-hero__cta span{font-size:17px;line-height:1}
+.hub-hero__cta span{font-size:16px;line-height:1}
 .hub-hero__rail{
-  position:relative;
+  position:absolute;
   z-index:2;
-  justify-self:end;
-  align-self:center;
+  right:clamp(20px,4vw,64px);
+  top:50%;
+  transform:translateY(-50%);
   display:flex;
   flex-direction:column;
   gap:9px;
-  padding-left:30px;
-  border-left:1px solid rgba(255,255,255,.56);
-  font-size:11px;
+  padding-left:26px;
+  border-left:1px solid rgba(255,255,255,.5);
+  font-size:10px;
   letter-spacing:.22em;
-  color:rgba(255,255,255,.66);
+  color:rgba(255,255,255,.58);
 }
 
 .hub-brands{
-  padding:clamp(26px,3.4vw,52px) clamp(16px,3.2vw,52px) clamp(34px,4vw,62px);
+  padding:clamp(34px,4vw,60px) clamp(16px,3.2vw,52px) clamp(34px,4vw,62px);
 }
 .hub-section-head{
   display:flex;
   align-items:end;
   justify-content:space-between;
   gap:30px;
-  margin-bottom:22px;
+  margin-bottom:24px;
 }
-.hub-section-head h2{
+.hub-section-head h1{
   margin-top:7px;
-  font-size:clamp(28px,4vw,54px);
-  line-height:.95;
-  letter-spacing:-.02em;
+  font-size:clamp(34px,5vw,68px);
+  line-height:.92;
+  letter-spacing:-.035em;
 }
 .hub-section-head p{
   max-width:470px;
@@ -157,9 +148,15 @@ main{min-height:100vh}
   overflow:hidden;
   min-height:238px;
   aspect-ratio:1.62/1;
-  border:1px solid rgba(255,255,255,.2);
+  border:1px solid rgba(255,255,255,.18);
   background:#121313;
   isolation:isolate;
+  transition:border-color .3s ease,transform .3s ease,box-shadow .3s ease;
+}
+.hub-card:hover{
+  transform:translateY(-2px);
+  border-color:rgba(255,255,255,.42);
+  box-shadow:0 18px 50px rgba(0,0,0,.28);
 }
 .hub-card img{
   position:absolute;
@@ -178,7 +175,7 @@ main{min-height:100vh}
   position:absolute;
   inset:0;
   z-index:1;
-  background:linear-gradient(180deg,rgba(6,7,7,.04) 28%,rgba(6,7,7,.9) 100%);
+  background:linear-gradient(180deg,rgba(6,7,7,.02) 28%,rgba(6,7,7,.9) 100%);
 }
 .hub-card__number{
   position:absolute;
@@ -227,9 +224,14 @@ main{min-height:100vh}
   text-transform:uppercase;
   color:#fff;
 }
-.hub-card__copy b{font-size:18px;font-weight:400}
-.hub-card--halloween img{filter:contrast(1.02) brightness(.88)}
-.hub-card--halloween:hover img{filter:saturate(1.07) contrast(1.04) brightness(.98)}
+.hub-card__copy b{
+  font-size:18px;
+  font-weight:400;
+  transition:transform .25s ease;
+}
+.hub-card:hover .hub-card__copy b{transform:translateX(4px)}
+.hub-card--halloween img{filter:contrast(1.02) brightness(.9)}
+.hub-card--halloween:hover img{filter:saturate(1.07) contrast(1.04) brightness(1)}
 
 .hub-coming{
   display:grid;
@@ -289,24 +291,40 @@ main{min-height:100vh}
   .brand-hub{padding-top:60px}
   .hub-hero{
     min-height:calc(100svh - 60px);
-    grid-template-columns:1fr;
-    padding:32px 20px;
+    padding:18px;
   }
   .hub-hero__image{object-position:center}
   .hub-hero__shade{
-    background:linear-gradient(0deg,rgba(5,6,6,.98) 0%,rgba(5,6,6,.8) 29%,rgba(5,6,6,.12) 72%,rgba(5,6,6,.34) 100%);
+    background:linear-gradient(0deg,rgba(5,6,6,.82) 0%,rgba(5,6,6,.26) 28%,rgba(5,6,6,0) 68%);
   }
-  .hub-hero__copy{align-self:end}
+  .hub-hero__minimal{
+    width:100%;
+    display:grid;
+    gap:10px;
+    padding:14px;
+  }
+  .hub-hero__cta{
+    padding-left:0;
+    padding-top:10px;
+    border-left:0;
+    border-top:1px solid rgba(255,255,255,.22);
+  }
   .hub-hero__rail{display:none}
-  .hub-hero h1{font-size:clamp(44px,14vw,76px)}
   .hub-section-head{display:block}
   .hub-section-head p{margin-top:12px}
   .hub-grid{grid-template-columns:1fr;gap:10px}
   .hub-card{min-height:210px;aspect-ratio:1.55/1}
+  .hub-card:hover{transform:none;box-shadow:none}
   .hub-coming{
     grid-template-columns:1fr;
     margin-bottom:20px;
     padding:22px;
   }
   .hub-coming>a{grid-column:auto}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .hub-card,
+  .hub-card img,
+  .hub-card__copy b{transition:none!important}
 }
