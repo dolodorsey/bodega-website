@@ -51,9 +51,9 @@ export const BODEGA_BRANDS = [
     number: '05',
     name: 'HALLOWEEN CONCERT MERCH',
     tagline: 'Nightmare on Channelside. Tampa.',
-    cta: 'ICONIC-ATL.COM / TAMPA MERCH',
-    href: 'https://iconic-atl.com/tampa/nightmare-on-channelside/merch/shop',
-    siteType: 'custom_domain_path',
+    cta: 'OFFICIAL TAMPA MERCH',
+    href: 'https://iconic-website-ten.vercel.app/tampa/nightmare-on-channelside/merch',
+    siteType: 'vercel_full_site',
     cover: 'https://cdn.shopify.com/s/files/1/0759/7506/5791/files/bodega-halloween-concert-card.webp?v=1790288611',
   },
   {
