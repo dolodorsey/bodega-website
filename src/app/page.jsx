@@ -69,7 +69,7 @@ export default function HomePage() {
           <span>SPORT</span>
           <span>CULTURE</span>
           <span>MERCH</span>
-          <span>+ MORE</span>
+          <span>DROPS</span>
         </div>
       </section>
 
@@ -81,7 +81,7 @@ export default function HomePage() {
           </div>
           <p>
             BODEGA is the front door. Every brand stays independent. Choose a card and enter that
-            entity's complete website.
+            entity&apos;s complete website.
           </p>
         </div>
 
@@ -90,18 +90,6 @@ export default function HomePage() {
             <BrandCard key={brand.key} brand={brand} />
           ))}
         </div>
-      </section>
-
-      <section className="hub-coming">
-        <div>
-          <span className="hub-eyebrow">MORE SHELVES ARE COMING.</span>
-          <h2>BevCo + the next merch worlds are already accounted for.</h2>
-        </div>
-        <p>
-          New entities can be added as another card and routed to their own custom domain, Vercel
-          site or dedicated BODEGA URL without mixing the brands together.
-        </p>
-        <a href="#brands">ALL BRANDS <span>→</span></a>
       </section>
     </div>
   );
