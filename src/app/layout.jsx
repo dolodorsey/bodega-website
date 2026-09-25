@@ -20,7 +20,7 @@ const body = Manrope({
 });
 
 const BRAND_DESCRIPTION =
-  'BODEGA is the home for the Kollective clothing and merchandise universe — one front door to independent brands, event merch and future drops.';
+  'BODEGA is the front door to independent clothing, merchandise, event and culture brands — each with its own world.';
 
 export const metadata = {
   metadataBase: new URL('https://www.bodegabodegabodega.com'),
@@ -108,10 +108,30 @@ export default function RootLayout({children}){
         </nav>
         <main>{children}</main>
         <footer className="footer">
-          <div className="footer__grid" aria-hidden="true"></div>
+          <div className="footer__grid">
+            <div className="footer__identity">
+              <a href="/" className="footer__wordmark">BODEGA</a>
+              <p className="footer__desc">
+                One front door. Independent brand worlds. Enter the directory, shop BODEGA, or go
+                straight into the brand you came for.
+              </p>
+            </div>
+            <div className="footer__column">
+              <span className="footer__heading">Explore</span>
+              <a href="/#brands" className="footer__link">Brand Directory</a>
+              <a href="/shop" className="footer__link">Shop BODEGA</a>
+              <a href="/forms/inquiry" className="footer__link">Contact</a>
+            </div>
+            <div className="footer__column">
+              <span className="footer__heading">BODEGA</span>
+              <span className="footer__meta">Atlanta, Georgia</span>
+              <span className="footer__meta">Fashion · Sport · Culture · Merch</span>
+            </div>
+          </div>
           <div className="footer__bottom">
-            <span>© {new Date().getFullYear()} BODEGA — ALL OUR BRANDS. ONE PLACE.</span>
-            <span>A KOLLECTIVE COMPANY · ATLANTA</span>
+            <span>© {new Date().getFullYear()} BODEGA</span>
+            <span>ALL BRANDS REMAIN INDEPENDENT.</span>
+            <span>A KOLLECTIVE COMPANY.</span>
           </div>
         </footer>
       </body>
