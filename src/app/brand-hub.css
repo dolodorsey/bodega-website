@@ -561,3 +561,200 @@ main{min-height:100vh}
     gap:7px!important;
   }
 }
+
+
+/* 2026-09-25 mobile visual correction — compact, balanced, thumb-friendly */
+@media(max-width:760px){
+  html{
+    scroll-padding-top:56px;
+    overflow-x:clip;
+  }
+  body{
+    overflow-x:clip;
+  }
+
+  .nav{
+    height:56px!important;
+    padding:0 14px 0 16px!important;
+    background:rgba(8,9,9,.94)!important;
+    backdrop-filter:blur(14px);
+  }
+  .nav__logo{
+    font-size:20px!important;
+    letter-spacing:.14em!important;
+  }
+  .mobile-menu-btn{
+    width:42px;
+    height:42px;
+    border-color:rgba(255,255,255,.2);
+  }
+  .mobile-menu-panel{
+    inset:56px 0 0;
+  }
+
+  .brand-hub{
+    padding-top:56px;
+  }
+
+  .hub-hero{
+    min-height:0!important;
+    height:clamp(520px,72svh,640px)!important;
+    padding:14px 14px calc(14px + env(safe-area-inset-bottom))!important;
+  }
+  .hub-hero__poster{
+    object-position:50% 52%!important;
+    filter:contrast(1.02) brightness(.88)!important;
+  }
+  .hub-hero__shade{
+    background:
+      linear-gradient(0deg,rgba(5,6,6,.82) 0%,rgba(5,6,6,.32) 34%,rgba(5,6,6,.04) 72%),
+      linear-gradient(90deg,rgba(5,6,6,.12),transparent 55%,rgba(5,6,6,.12))!important;
+  }
+  .hub-hero__minimal{
+    gap:7px!important;
+    padding:11px 12px!important;
+    border-color:rgba(255,255,255,.2);
+    background:rgba(5,6,6,.72)!important;
+  }
+  .hub-hero__minimal .hub-eyebrow{
+    font-size:7.5px!important;
+    letter-spacing:.22em!important;
+    line-height:1.45;
+  }
+  .hub-hero__cta{
+    min-height:40px!important;
+    padding-top:8px!important;
+    gap:10px!important;
+    font-size:8px!important;
+    letter-spacing:.16em!important;
+  }
+  .hub-hero__cta span{
+    margin-left:auto;
+    font-size:18px;
+  }
+
+  .hub-brands{
+    padding:24px 14px 26px!important;
+  }
+  .hub-section-head{
+    margin-bottom:18px!important;
+  }
+  .hub-section-head .hub-eyebrow{
+    font-size:7.5px!important;
+    letter-spacing:.24em!important;
+  }
+  .hub-section-head h1{
+    margin-top:7px!important;
+    max-width:10ch;
+    font-size:clamp(34px,10.5vw,44px)!important;
+    line-height:.9!important;
+    letter-spacing:-.05em!important;
+  }
+  .hub-section-head p{
+    max-width:35ch;
+    margin-top:11px!important;
+    font-size:11.5px!important;
+    line-height:1.65!important;
+    color:rgba(244,241,236,.6)!important;
+  }
+
+  .hub-grid{
+    gap:10px!important;
+  }
+  .hub-card{
+    aspect-ratio:1.48/1!important;
+    min-height:0!important;
+  }
+  .hub-card__number{
+    top:11px;
+    left:12px;
+    font-size:8px;
+  }
+  .hub-card__copy{
+    left:13px!important;
+    right:13px!important;
+    bottom:11px!important;
+    gap:3px!important;
+  }
+  .hub-card__copy strong{
+    font-size:clamp(24px,7vw,31px)!important;
+    line-height:.94!important;
+  }
+  .hub-card__copy em{
+    font-size:7.5px!important;
+    line-height:1.35!important;
+    letter-spacing:.13em!important;
+  }
+  .hub-card__copy>span{
+    min-height:40px!important;
+    margin-top:6px!important;
+    padding-top:8px!important;
+    font-size:7.5px!important;
+    line-height:1.25!important;
+    letter-spacing:.12em!important;
+  }
+  .hub-card__copy b{
+    font-size:17px;
+  }
+
+  .footer{
+    padding:28px 16px calc(18px + env(safe-area-inset-bottom))!important;
+  }
+  .footer::before{
+    display:none!important;
+  }
+  .footer__grid{
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+    gap:22px 18px!important;
+    margin-bottom:24px!important;
+  }
+  .footer__identity{
+    grid-column:1/-1;
+    max-width:100%;
+  }
+  .footer__wordmark{
+    font-size:clamp(38px,12vw,48px)!important;
+    line-height:.9!important;
+    letter-spacing:.12em!important;
+  }
+  .footer__desc{
+    max-width:34ch!important;
+    margin-top:12px!important;
+    font-size:10.5px!important;
+    line-height:1.7!important;
+  }
+  .footer__heading{
+    margin-bottom:10px!important;
+    font-size:7px!important;
+    letter-spacing:.26em!important;
+  }
+  .footer__link{
+    min-height:38px!important;
+    font-size:10px!important;
+    line-height:1.3!important;
+  }
+  .footer__meta{
+    margin-bottom:8px!important;
+    font-size:9.5px!important;
+    line-height:1.55!important;
+  }
+  .footer__bottom{
+    gap:4px!important;
+    padding-top:15px!important;
+    font-size:7px!important;
+    letter-spacing:.13em!important;
+    line-height:1.45!important;
+  }
+}
+
+@media(max-width:430px){
+  .hub-hero{
+    height:clamp(500px,70svh,590px)!important;
+  }
+  .hub-card{
+    aspect-ratio:1.46/1!important;
+  }
+  .footer__grid{
+    grid-template-columns:1fr 1fr!important;
+  }
+}
